@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+    <head>				
+        <title>KENXINDA.BROWSER.{$Think.const.CONTROLLER_NAME}</title>
+        <meta charset="UTF-8">
+          <include file="layout/config_js" />
+          <script src="__PUBLIC__/home/js/flexible.js"></script>		
+        <link rel="stylesheet" type="text/css" href="__PUBLIC__/home/css/header.css"/>
+        <link rel="stylesheet" type="text/css" href="__PUBLIC__/home/css/pushing.css"/>
+        <script src="__PUBLIC__/home/js/jquery-1.7.2.js"></script>
+
+        <script src="__PUBLIC__/home/js/iscroll.js"></script>
+        <script src="__PUBLIC__/home/js/common.js"></script>
+        <script src="__PUBLIC__/home/js/header.js"></script>
+              
+    </head>
+	<body id="cc">
+		<div id="dd">
+		<include file="layout/head" />
+		<div id="content" >        
+	     <div id="content-out">
+                    <div id="content-in">				
+                    <div id="con-in">
+					
+		<div id="refresh" >
+		{$Think.lang.ARefreshing}
+		<img src="__PUBLIC__/home/img/5-121204193R2-50.gif"/>
+                </div>
+		<ul class="list">
+                    <volist name="list" id="vo">
+			<li>
+				<a href="{$vo.link_address}">
+					<div class="list-title">
+                                            <volist name="vo.images" id="im">
+						<img src="__ROOT__/{$im}">
+                                            </volist>
+						<p>{$vo.tit_name}</p>	
+					</div>
+					<div class="promte">
+						<p class="source">							
+                                                    {$vo.come_from}
+						</p>
+						<p class="author">
+                                                    {$vo.create_date}
+						</p>
+					</div>
+				</a>
+			</li>
+			<hr />
+                    </volist>
+		</ul>
+                <input id="fKe" type="hidden" value="0">                    
+		<div id="loading" style="visibility: hidden;">
+			   	{$Think.lang.Aloading}
+			   	<img src="__PUBLIC__/home/img/5-121204193R2-50.gif"/>
+		</div>
+	  </div>
+	</div>	
+	
+	</div>
+	</div>
+	</div>
+</body>
+<script>
+   
+    function headRef(){
+        window.location.reload();    
+    }
+    var n=0;
+    function header(){
+    	n++;
+       
+        $.ajax({
+            type:"post",
+            url:API+"/Index/reNewsEntCar",
+           
+            data:{
+             nav_mark: "recommend_list",	
+             page:n,
+             size:6,
+            },
+            async:true,
+            success:function(data){           
+//          	console.log(jsonData)
+            	 var jsonData=eval('('+data+')');
+////           var jsonData=$.parseJSON(data);
+////            var jsonData=JSON.parse(data);
+
+               if(n!=1){
+	               if(jsonData.result.length<6){
+	               	n=0;
+	               }
+               }
+                keys=jsonData.status.page;
+                $('#fKe').val(keys);
+                var addlist='';
+                var images='';
+                for(var i=0;i<jsonData.result.length;i++){
+                    images='';
+                    for(var m=0;m<jsonData.result[i].images.length;m++){
+                        images+='<img src="'+jsonData.result[i].images[m]+'">';
+                    }
+                    addlist+='<li><a href="'+jsonData.result[i].link_address+'">'+
+					'<div class="list-title">'+
+						images+
+						'<p>'+jsonData.result[i].tit_name+'</p>'+												
+					'</div>'+
+					'<div class="promte">'+
+						'<p class="source">'+							
+							jsonData.result[i].come_from+						
+						'</p>'+
+						'<p class="author">'+
+							jsonData.result[i].create_date+
+						'</p>'+
+					'</div>'+
+				'</a>'+
+			'</li><hr />';
+                       
+                }
+                $(".list").html(addlist);
+            }
+           
+        });
+    }
+    function footerLoad(){
+        $('#fKe').val(parseInt($('#fKe').val())+1);
+        var keys=$('#fKe').val();
+        $.ajax({
+            type:"post",
+            url:"__APP__/Home/Index/footerLoad.html",
+            data:'keys='+keys,
+            async:true,
+            success:function(data){
+                var jsonData=eval('('+data+')');
+                keys=jsonData.status.page;
+                $('#fKe').val(keys);
+                var addlist='';
+                var images='';
+                for(var i=0;i<jsonData.data.length;i++){
+                    images='';
+                    for(var m=0;m<jsonData.data[i].images.length;m++){
+                        images+='<img src="__ROOT__/'+jsonData.data[i].images[m]+'">';
+                    }
+                    addlist='<li><a href="'+jsonData.data[i].link_address+'">'+
+					'<div class="list-title">'+
+						images+
+						'<p>'+jsonData.data[i].tit_name+'</p>'+												
+					'</div>'+
+					'<div class="promte">'+
+						'<p class="source">'+							
+							jsonData.data[i].come_from+						
+						'</p>'+
+						'<p class="author">'+
+							jsonData.data[i].create_date+
+						'</p>'+
+					'</div>'+
+				'</a>'+
+			'</li><hr />';
+                        $(".list").html($(".list").html()+addlist);
+                }
+                 $("#loading").css("visibility", "hidden")
+            }
+           
+        });
+        
+    }
+</script>
+</html>

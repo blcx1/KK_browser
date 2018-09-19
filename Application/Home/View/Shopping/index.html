@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<title>KENXINDA.BROWSER.{$Think.const.CONTROLLER_NAME}</title>
+		<meta charset="UTF-8">
+		<link rel="stylesheet" type="text/css" href="__PUBLIC__/home/css/header.css" />
+		<link rel="stylesheet" type="text/css" href="__PUBLIC__/home/css/shopping.css" />
+                <include file="layout/config_js" />
+		<script src="__PUBLIC__/home/js/jquery-1.7.2.js"></script>
+		<script src="__PUBLIC__/home/js/flexible.js"></script>
+		<script src="__PUBLIC__/home/js/iscroll.js"></script>
+		<!--<script src="__PUBLIC__/home/js/common.js"></script>-->
+		<script src="__PUBLIC__/home/js/header.js"></script>
+	</head>
+
+	<body>
+
+		<include file="layout/head" />
+		<div id="content">
+			<div id="content-out">
+				<div id="content-in">
+					<div id="con-in">
+						<div id="refresh">
+							{$Think.lang.ARefreshing}
+							<img src="__PUBLIC__/home/img/5-121204193R2-50.gif" />
+						</div>
+						<div id="shop-nav">
+							<ul>
+								<volist name="type" id="vo">
+									<li>
+										<a href="javascript:typeList({$vo.id},'{$vo.type_name}');">{$vo.type_name}</a>
+									</li>
+								</volist>
+							</ul>
+						</div>
+						<div class="separate"></div>
+						<div id="shop-in">
+							<!--\-->
+							<div id="typeList">
+							</div>
+							<!--/-->
+							<div class="shop-list">
+								{$Think.lang.HotColumn}
+							</div>
+							<hr style="margin-top: 0;" />
+							<ul class="list">
+								<volist name="hot" id="vo">
+									<li>
+										<a href="{$vo.link_address}">
+											<div class="shop-img">
+												<img src="{$vo.shop_image}" />
+											</div>
+											<div class="shop-title">
+												{$vo.shop_name}
+											</div>
+											<div class="describe">
+												<span class="price">￥{$vo.shop_price}</span>
+												<span class="frequency">{$vo.out_count}人购买 </span>
+											</div>
+										</a>
+									</li>
+									<hr />
+								</volist>
+							</ul>
+							<div class="separate"></div>
+							<div class="shop-list">
+								{$Think.lang.RecommendedColumn}
+							</div>
+							<hr style="margin-top: 0;" />
+							<ul class="list">
+								<volist name="recom" id="vo">
+									<li>
+										<a href="{$vo.link_address}">
+											<div class="shop-img">
+												<img src="{$vo.shop_image}" />
+
+											</div>
+											<div class="shop-title">
+												{$shop_name}
+											</div>
+											<div class="describe">
+												<span class="price">{$Think.lang.Money}{$vo.shop_price}</span>
+												<span class="frequency">{$vo.out_count}{$Think.lang.PersonBuy} </span>
+											</div>
+										</a>
+									</li>
+									<hr />
+								</volist>
+							</ul>
+
+							<!--尾部加载-->
+							<div id="allShop" style="display:none;">
+								<div class="separate"></div>
+								<div class="shop-list">
+									{$Think.lang.AllGoodThings}
+								</div>
+								<hr style="margin-top: 0;" />
+								<ul id="footLoad">
+								</ul>
+							</div>
+
+						</div>
+						<input id="fKe" type="hidden" value="0">
+						<div id="loading">
+							{$Think.lang.Aloading}
+							<img src="__PUBLIC__/home/img/5-121204193R2-50.gif" />
+						</div>
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</body>
+	<script>
+		function typeList(id, type_name) {
+			$.ajax({
+				type: 'post',
+				url: 'typeList.html',
+				data: 'id=' + id,
+				success: function(data) {
+					if(data) {
+						var jsonData = eval('(' + data + ')');
+						var list = getlist(jsonData);
+						var typelist = '<div class="shop-list">' + type_name + '</div><hr  style="margin-top: 0;"/><ul>' + list + '</ul>';
+						$("#typeList").html(typelist);
+					}
+				}
+			});
+		}
+		var n = 0;
+
+		function header() {
+			n++;
+			var nomul = "{$Think.lang.NoMore}";
+			$.ajax({
+				type: 'post',
+				url: API + "/Index/shop",
+				data: {
+					nav_mark: "shop_list",
+					page: n,
+					size: 6,
+				},
+				success: function(data) {
+
+					var k;
+					var jsonData = eval('(' + data + ')');
+					var datas = jsonData.result
+//					console.log(datas)
+					var list = '';
+					for(var j in datas) {
+						if(j == "type") {
+							continue
+						}
+						var len = datas[j]
+//						console.log(j)
+//						console.log(n)
+						for(var i = 0; i < len.length; i++) {
+							list += '<li>' +
+								'<a href="' + len[i].link_address + '">' +
+								'<div class="shop-img">' +
+								'<img src="' + len[i].shop_image + '"/>' +
+								'</div>' +
+								'<div class="shop-title">' +
+								len[i].shop_name +
+								'</div>' +
+								'<div class="describe">' +
+								'<span class="price">{$Think.lang.Money}' + len[i].shop_price + '</span>' +
+								'<span class="frequency">' + len[i].out_count + '{$Think.lang.PersonBuy}</span>' +
+								'</div>' +
+								'</a>' +
+								'</li><hr />';
+						}
+						if(j == "hot") {
+							k = 0;
+						} else if(j == "recom") {
+							k = 1;
+						}
+
+					}
+					$('.list').eq(k).html(list)
+
+				}
+			});
+		}
+
+		function footerLoad() {
+			$('#fKe').val(parseInt($('#fKe').val()) + 1);
+			var keys = $('#fKe').val();
+			var nomul = "{$Think.lang.NoMore}";
+			$.ajax({
+				type: 'post',
+				url: 'footerLoad.html',
+				data: 'keys=' + keys,
+				success: function(data) {
+					if(!data) {
+						$('#loading').html(nomul);
+					} else {
+						$('#allShop').show(500);
+						var jsonData = eval('(' + data + ')');
+						var list = getlist(jsonData);
+						$('#footLoad').html($('#footLoad').html() + list);
+					}
+					$("#loading").css("visibility", "hidden")
+
+				}
+			});
+		}
+
+		function getlist(jsonData) {
+			var list = '';
+			for(var i = 0; i < jsonData.length; i++) {
+				list += '<li>' +
+					'<a href="' + jsonData[i].link_address + '">' +
+					'<div class="shop-img">' +
+					'<img src="' + jsonData[i].shop_image + '"/>' +
+					'</div>' +
+					'<div class="shop-title">' +
+					jsonData[i].shop_name +
+					'</div>' +
+					'<div class="describe">' +
+					'<span class="price">{$Think.lang.Money}' + jsonData[i].shop_price + '</span>' +
+					'<span class="frequency">' + jsonData[i].out_count + '{$Think.lang.PersonBuy}</span>' +
+					'</div>' +
+					'</a>' +
+					'</li><hr />';
+			}
+			return list;
+		}
+	</script>
+
+</html>

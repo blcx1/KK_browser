@@ -1,0 +1,49 @@
+﻿<include file="common/head" />
+<style>
+	tr{
+		height:40px;
+		line-height:40px;
+	}
+</style>
+<div  style="width: 812px; margin: 0 auto; ">
+		<table class="table table-striped table-bordered table-condensed ">
+			<tr>
+				<td colspan="4" >
+				<h3>{$Think.lang.LoginInfo}</h3>
+				</td>
+			</tr>			
+			<tr>
+				<td>{$Think.lang.OS}</td>
+				<td class="td_left">
+					{$detail_info.os}
+				</td>
+				<td>{$Think.lang.UseBrowse}</td>
+				<td class="td_left">{$detail_info.browse}</td>
+			</tr>		
+			<tr>
+				<td >{$Think.lang.LoginPrevIp}</td>
+				<td class="td_left">{$detail_info.login_prev_ip}</td>
+				<td >{$Think.lang.LoginLastIp}</td>
+				<td class="td_left">{$detail_info.login_last_ip}</td>
+			</tr>			
+			<tr>
+				<td >{$Think.lang.LoginPrev}{$Think.lang.Address}</td>
+				<td class="td_left">{$detail_info.login_prev_ip_location}</td>
+				<td >{$Think.lang.LoginLast}{$Think.lang.Address}</td>
+				<td class="td_left">{$detail_info.login_last_ip_location}</td>
+			</tr>
+			<tr>
+				
+				<td>{$Think.lang.LoginPrevDateTime}</td>
+				<td class="td_left">{$detail_info.login_prev_datetime}</td>
+				<td>{$Think.lang.LoginLastDateTime}</td>
+				<td class="td_left">{$detail_info.login_last_datetime}</td>
+			</tr>			
+			<tr>
+				<td>UserAgent</td>
+				<td colspan="3" class="td_left">{$_SERVER|filter_set_value='HTTP_USER_AGENT','','string'}</td>
+			</tr>
+		</table>		
+	</div>
+
+<include file="common/footer"/>

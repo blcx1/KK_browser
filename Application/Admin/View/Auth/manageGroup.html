@@ -1,0 +1,80 @@
+<include file="common/head" />
+	<style type="text/css">
+		h3 {
+			margin-top: 5px;
+			margin-bottom: 5px;
+		}
+		.tab_list td{
+			font-weight:700;
+		}
+	</style>
+	<table  style="/*width:600px;*/width:765px; margin:0 auto;text-align: center;" class="table  table-striped table-bordered table-condensed " >
+		<tr>
+			<td class="text-center" colspan="10">
+				<h3>{$Think.lang.Members}
+					<!--<a href="__APP__/Admin/Auth/getAllMaster/id/{$id}" style="margin-left:20px;" class="btn btn-default">{$Think.lang.AddMembers}</a>--></h3>
+				<input type="hidden" id="group_{$id}" name="id" value="{$id}">
+			</td>
+		</tr>
+		<tr class="tab_list">
+			<td>{$Think.lang.AdminId}</td>
+			<td>{$Think.lang.AdminName}</td>
+			<td>{$Think.lang.AdminJobnum}</td>
+			<td>{$Think.lang.GenusAdminGroup}</td>
+			<td>{$Think.lang.Operation}</td>
+		</tr>
+		<Volist name="dataMasterList" id="mas">
+			<tr style="vertical-align: middle;">
+				<td style="vertical-align: middle;" id="{$mas.id}">{$mas.id}</td>
+				<td style="vertical-align: middle;" id="{$mas.name}">{$mas.name}</td>
+				<td style="vertical-align: middle;" id="{$mas.jobnum}">{$mas.jobnum}</td>
+				<td style="vertical-align: middle;" id="{$mas.title}">{$mas.title}</td>
+				<td>
+					<a href="#" id="{$mas.id}" class="editGroupAccess btn btn-default">{$Think.lang.updateAdminGroup}</a>
+					<a href="__APP__/Admin/Auth/deleteGroupAccess/id/{$mas.id}/group_id/{$id}" onclick="return confirm('{$Think.lang.DelOK}？')" class="btn btn-default">{$Think.lang.Delete}</a>
+				</td>
+			</tr>
+		</Volist>
+	</table>
+	
+  <div id="editGroup" style="display:none; margin:0px,auto;  margin-left:25px; ">
+	<form action="__APP__/Admin/Auth/editGroupAccess" method="post">
+		<table>
+			<tr style="height:64px !important;">
+				<td>{$Think.lang.PleaseSelGroup}：<input type="hidden" name="uid" class="edit_group_uid" value="{dataMasterList.id}"></td>
+				<td>
+					<select id="group_id" name="group_id" class="form-control">
+						<Volist name="dataAuthgroupList" id="group">
+							<option value="{$group.id}">{$group.title}</option>
+						</Volist>
+					</select>
+				</td>
+				<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+				<td><input type="submit" class="btn btn-default" value="{$Think.lang.Modify}"></td>
+			</tr>
+		</table>
+	</form>
+</div>
+<script type="text/javascript">
+	layer.use('extend/layer.ext.js'); //载入layer拓展模块
+	$(document).ready(function(){
+		$(".editGroupAccess").on('click',function(){
+			var uid= this.id;
+			$(".edit_group_uid").attr("value",uid);
+			var pagei = $.layer({
+				type : 1, //0-4的选择,
+				title : "{$Think.lang.ModifyMapp}",
+				border : [ 1 ],
+				closeBtn : [ 0 ],
+				shift : "top",
+				shadeClose : true,
+				area : [ '350px', '150px' ],
+				page : {
+					dom : '#editGroup'
+				}
+			});
+		});
+		 
+	});
+</script>
+<include file="common/footer"/>

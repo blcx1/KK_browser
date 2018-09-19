@@ -1,0 +1,14 @@
+@CHARSET "UTF-8";
+td{
+	
+}
+
+.bottom img{
+	margin: 3px;
+	clear: both;
+}
+
+.num{
+	margin-left: 5px;
+	margin-right: 5px;
+}

@@ -1,0 +1,93 @@
+<!DOCTYPE html >
+<html>
+<head>
+<title>{$Think.lang.AddTheme}</title>
+<meta charset="UTF-8">
+<link href="__PUBLIC__/lib/bootstrap/css/bootstrap.css" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/css/admin-all.css" />
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/css/formui.css"/>
+<script src="__PUBLIC__/lib/jquery-1.8.3.min.js" type="text/javascript"></script>
+<script src="__PUBLIC__/lib/My97DatePicker/WdatePicker.js" type='text/javascript'></script>
+<script src="__PUBLIC__/lib/layer/layer.min.js" type='text/javascript'></script>
+<script type='text/javascript'>
+$(document).ready(function(){
+
+})
+</script>
+<style type="text/css">
+.deleteitem {
+	float: left;
+	margin-left: 10px;
+}
+.fileitem{
+	float: left;
+	width: 400px;
+}
+.filedivitem{
+	height: 34px;
+	margin-bottom: 10px;
+}
+td {
+	text-align: center;
+	vertical-align: middle!important;
+}
+.spanrequire{
+	  float: left;
+	  display: inline-block;
+	  line-height: 34px;
+	  color: red;
+	  width: 30px;
+	  font-size: larger;
+}
+.inputspanrequire{
+  display: inline-block;
+  line-height: 34px;
+  color: red;
+  width: 30px;
+  font-size: larger; 
+}
+.form-control-input{
+	width: 250px;
+	display: inline-block;
+} 
+ .table-condensed tr td:first-child{
+	 font-weight:700;
+ }
+</style>	
+</head>
+<body>
+<div class="alert alert-info" style="padding: 2px;margin-bottom: 4px;">
+	{$Think.lang.Position}<b class="tip"></b>
+	{$Think.lang.WebNavigation}<b class="tip"></b>
+	{$Think.lang.AddNavigation}</div>
+	<div  style="width: 50%;margin:0px auto; padding-top: 10px; min-width: 675px;"  style="text-align:center;">
+		<form  id="addThemeForm" action="" 
+			method="post" class="form-inline" >
+
+			<table  class="table table-bordered table-striped  table-condensed ">
+				<tbody>
+                                    <tr>
+                                        <td>条目名称：</td>
+                                        <td><input type="text" name="name"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>选择语言:</td>
+                                        <td>
+                                            <select name="language" style="width:150px">
+                                                <option value="zh-cn">zh-cn</option>
+                                                <option value="en-us">en-us</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                            <td colspan="2" style="text-align: center;">
+                                            <input type="submit" value="{$Think.lang.Add}" class="btn4 btn-success btn" />
+                                            <input type="reset" value="{$Think.lang.Reset}" class="btn4 btn-success btn" /> <span>*{$Think.lang.Required}</span></td>
+                                    </tr>
+				</tbody>
+			</table>
+		</form>
+	</div>
+	
+</body>
+</html>

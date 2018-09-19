@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+    <head>				
+        <title>KENXINDA.BROWSER.{$Think.const.CONTROLLER_NAME}</title>
+        <meta charset="UTF-8">
+        <link rel="stylesheet" type="text/css" href="__PUBLIC__/home/css/header.css"/>
+        <include file="layout/config_js" />
+        <script src="__PUBLIC__/home/js/jquery-1.7.2.js"></script>
+        <script src="__PUBLIC__/home/js/flexible.js"></script>		
+        <script src="__PUBLIC__/home/js/iscroll.js"></script>
+        <script src="__PUBLIC__/home/js/header.js"></script>
+    </head>
+	<body>
+		
+		<div id="header">
+			<div id="nav-add">+</div>
+			<div class="nav-out" id="wrapper">
+				<div class="nav-in" id="scroller">
+					<ul class="nav-list">
+                                            <volist name="webNavi" id="vo" key="k">
+						<li role="presentation" class="nav" <if condition="$Think.const.LANG_SET eq 'en-us'" >style="margin-left:0.2rem;"</if>><a href="javascript:;" <if condition="$k eq 1">class="border-bottom"</if>>{$vo.name}</a></li>
+                                            </volist>
+					</ul>
+				</div>				
+		   </div>
+		</div>
+		<div id="nav-list-1">
+			
+			<div id="list-1">
+				<div id="list-2">
+				<p>点击进入频道</p>
+				<ul>
+                                    <volist name="webNavi" id="vo" key="k">
+					<li<if condition="$k eq 0"> class="shadow"</if>>{$vo.name}</li>
+                                    </volist>
+				</ul>
+			</div>
+			<div style="clear: both;"></div>
+			</div>
+		</div>
+		<div id="content" >                   
+                    <!--<volist name="webNavi" id="vo" key="k">
+			<div <if condition="$k eq 1">style="display: block;" </if>>
+			<iframe src="{$vo.url}"></iframe> 
+			</div>
+                    </volist>-->
+				<iframe  src="/browser/Home/Index/recom.html"></iframe>
+		</div>
+		</body>
+</html>

@@ -1,0 +1,187 @@
+<!DOCTYPE html >
+<html>
+<head>
+<title>{$Think.lang.AddTheme}</title>
+<meta charset="UTF-8">
+<link href="__PUBLIC__/lib/bootstrap/css/bootstrap.css" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/css/admin-all.css" />
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/css/formui.css"/>
+<script src="__PUBLIC__/lib/jquery-1.8.3.min.js" type="text/javascript"></script>
+<script src="__PUBLIC__/lib/My97DatePicker/WdatePicker.js" type='text/javascript'></script>
+<script src="__PUBLIC__/lib/layer/layer.min.js" type='text/javascript'></script>
+<style type="text/css">
+	body{
+		min-width: 800px;
+	}
+
+</style>
+<script type='text/javascript'>
+var getInfoPath='__CONTROLLER__/getInfomation.html';
+$(document).ready(function(){
+       
+    $.getScript('__PUBLIC__/js/img_select.js');
+    
+    //添加选择短文时隐藏文件上传按钮
+    $("select[name=type]").change(function(){
+        if($(this).val()=='txt'){
+            $('.t1,.t2').hide();
+            $("#btn").css("display","none");
+    	    $(".t").css("display","none");
+        }else if($(this).val()=='mp4'){
+            $('.t1').show();
+            $('.t2').hide().next("br").hide();
+            $("#btn").css("display","inline-block");
+            $(".t").show();
+            
+    		
+        }else{
+            $('.t1,.t2').show().next("br").show();
+            $("#btn").css("display","inline-block");
+            $(".t").show();
+    		
+        }
+    });
+
+    function language(){
+        $.ajax({
+            type:'post',
+            url:'__CONTROLLER__/langType.html',
+            data:{language:$("select[name='language'] option:selected").val()},
+            async:true,
+            success:function(data){
+                var option='';
+                for(var i=0;i<data.length;i++){
+                    option+='<option value="'+data[i].id+'">'+data[i].type_name+'</option>';
+                }
+                $("select[name='cate']").html(option);
+            }
+        });
+    }
+    language();
+    $("select[name='language']").change(function(){
+        language();
+    });
+//  $("#ftxt").on("change",function(){
+//  	var val=$(this).val()
+//  	console.log(val)
+//  	if(val=="txt"){
+//  		
+//  	}else{
+//  		
+//  		
+//  	}
+//  	
+//  })
+  
+})
+</script>
+	
+</head>
+<body>
+<div class="alert alert-info" style="padding: 2px;margin-bottom: 4px;">
+	{$Think.lang.Position}<b class="tip"></b>
+	{$Think.lang.Funny}<b class="tip"></b>
+	{$Think.lang.funnyadd}
+</div>
+       
+        <form action="__CONTROLLER__/csvfile.html" method="post" enctype="multipart/form-data" style="width: 50%;margin:0px auto; padding-top: 10px; min-width: 675px;">
+        	<div  style="width: 744px; margin: auto;">
+        	 <input id="csvimp" type="button" style="float:left; margin:0 0 10px 0;" value="CSV格式批量导入" class="btn4 btn-info btn" />
+            <div id="csvfile" style="float:right; display:none; margin:0;position: relative;">
+            	 <input type="submit" value="确定" class="btn4 btn-info btn" style="float: right;margin: 0 35px 0 20px;" />
+                <input type="file" name="csvfile"id="more" class="form-control radius" style="float: right; "  />
+		        <div class="shade" style="width: 210px;left: 50%;">未上传任何文件</div>                
+               <input type="button" class="btn4 btn" value="模板文件下载" style="float: left;" onclick="location.href='__CONTROLLER__/doloadfile.html?name=addfunny.csv'" />
+
+               
+            </div>
+           </div>
+        </form>
+        <div class="img-loading">
+        	<img class="loading" src="__PUBLIC__/images/timg.gif"  /><input class="btn-warning btn" type="button" value="取消">     	
+        </div>
+        <!--通过url检测到的img-->
+        <div class="imgselect" style="display:none; position:absolute; background:#CCC; width:100%;min-height: 100%;z-index:2;">
+            <div style="text-align:center;">
+             <div id="up"></div>
+             <div id="lo"></div>
+            <span class="imgurl"></span>
+            <div class="btn-last">
+            	 <input class="img-comit" type="button" value="确定">&nbsp;&nbsp;<input class="img-recet" type="button" value="取消">
+            </div>
+           
+            </div>
+        </div>
+	<div style="width: 50%;margin:0px auto; padding-top: 10px; min-width: 675px;"  style="text-align:center;">
+		<form  id="addForm" action="__APP__/Admin/Funny/addFunny_list" method="post" enctype="multipart/form-data" class="form-inline" >
+
+			<table  class="table table-bordered table-striped  table-condensed "style="position: relative;">
+				<tbody>
+                    <tr>
+                        <td>链接地址(url)：<span style="color:red;">&nbsp;&nbsp;*</span></td>
+                        <td class="link_address"><input class="form-control" type="text" name="link_address" style="width:80%;"><input id="btn" type="button" value="获取信息"></td>
+                    </tr>
+                    <tr>
+                        <td>所属版块：</td>
+                        <td>
+                            <select class="form-control" name="language" >
+                                <volist name="lang" id="vo">
+                                    <option value="{$vo.iso_code}">{$vo.name}</option>
+                                </volist>
+                            </select>
+                                <select class="form-control" name="cate">
+                                        <volist name="cate" id="cateval">
+                                                <option value="{$cateval.id}">{$cateval.type_name}</option>
+                                        </volist>
+                                </select>
+                                <select id="ftxt" class="form-control" name="type">
+                                        <option value="jpg">图片</option>
+                                        <option value="txt">短文</option>
+                                        <option value="mp4">视频</option>
+                                </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>名称标题：<span style="color:red;">&nbsp;&nbsp;*</span></td>
+                        <td><input style="width:100%; font-weight:bold;" class="form-control" type="text" name="tit_name"></td>
+                    </tr>
+                    <tr>
+                        <td>短描述：</td>
+                        <td>
+                                <input style="width:100%" id="descr" type="text" class="form-control" name="introduction">
+                        </td>
+                    </tr>
+                    <tr id="imgSelect" style="display:none;">
+                        <td colspan="2"><input class="btn btn-reset" type="button" value="重新选择图片"></td>
+                    </tr>
+                    <tr>
+                        <td class="t">展示图片：</td>
+                        <td class="t">
+                            <span class="t1" id="image0"><input class="form-control radius" type="file" name="image[]" style="width: 291px"><div class="shade" >未上传任何文件</div></span><span style="color:red;">*</span><br/>
+                            <span class="t2" id="image1"><input class="form-control radius" type="file" name="image[]"style="width: 291px"><div class="shade" >未上传任何文件</div></span><br/>
+                            <span class="t2" id="image2"><input class="form-control radius" type="file" name="image[]"style="width: 291px"><div class="shade" >未上传任何文件</div></span><br/>
+                            <span class="t2" id="image3"><input class="form-control radius" type="file" name="image[]"style="width: 291px"><div class="shade" >未上传任何文件</div></span><br/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>来自：</td>
+                        <td><input class="form-control" type="text" name="come_from"style="text-align: center;"><input id="comeSelect" class="btn" type="button" value="︿"><span></span></td>
+                    </tr>
+                    <tr id="comeFrom" >
+                        <td colspan="2" style="text-align: center;">
+                          
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" style="text-align: center;">
+                            <select class="form-control" name="is_put"><option value="1">发布</option><option value="0">不发布</option></select>
+                            <input type="submit" value="{$Think.lang.Add}" class="btn4 btn-info btn" />
+                            <input type="reset" value="{$Think.lang.Reset}" class="btn4 btn-warning btn" />
+                        </td>
+                    </tr>
+			</tbody>
+			</table>
+		</form>
+	</div>
+</body>
+</html>

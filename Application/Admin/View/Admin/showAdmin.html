@@ -1,0 +1,49 @@
+<include file="common/head" />
+	<style>
+		.tab_list td{
+			font-weight:700;
+		}
+	</style>
+	<table  style="width:95%; margin:0 auto;" class="table  table-striped table-bordered table-condensed " >
+		<tr>
+			<td colspan="10" class="text-center"><h3>{$Think.lang.AdministratorList}</h3></td>
+		</tr>
+		<tr class="tab_list">
+				<td>{$Think.lang.AdminName}</td>
+				<td>{$Think.lang.AdminJobnum}</td>
+				<td>{$Think.lang.Auth}</td>
+				<td>{$Think.lang.Birthday}</td>
+				<td>{$Think.lang.Address}</td>
+				<td>{$Think.lang.Phone}</td>
+				<td>{$Think.lang.CreateTime}</td>
+				<td>{$Think.lang.Operation}</td>
+			</tr>
+			<Volist name="adminList" id="admin"> 
+			<tr>
+				<td><input type="hidden" name="id" value="{$admin.id}" />{$admin.name}</td>
+				<td>{$admin.jobnum}</td>
+				<td>
+					<if condition="$admin.title eq null"><span style="color:red;">{$Think.lang.NoAuth}</span>
+					<else/>
+						{$admin.title}
+					</if>
+				</td>
+				<td>{$admin.borthday}</td>
+				<td>{$admin.address}</td>
+				<td>{$admin.mobile}</td>
+				<td>{$admin.createtime}</td>
+				<td>
+					<if condition="authcheck('Admin/Admin/updatePwdByID',$_SESSION['userid'])">
+					<a href="__APP__/Admin/Admin/updatePwdByID.html?id={$admin.id}" class="btn btn-default">{$Think.lang.ModifyPwd}</a>
+					</if>
+					<a href="__APP__/Admin/Admin/showAdmin.html?id={$admin.id}" class="btn btn-default" >{$Think.lang.ModifyInfo}</a>
+					<a href="__APP__/Admin/Admin/deleteAdmin?id={$admin.id}"
+					onclick="return confirm('{$Think.lang.DelOK}')" class="btn btn-default" >{$Think.lang.Delete}</a>
+				</td>
+			</tr>
+			</Volist>
+		<tr>
+			<td colspan="10" style="text-align: center;"><div style="float:left;display:inline-block;"></div><div style="display:inline-block;">{$show}</div><div style="display:inline-block;margin-left:15px;">{$Think.lang.Amount}: {$amount}</div></td>
+		</tr>
+	</table>
+<include file="common/footer"/>

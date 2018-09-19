@@ -1,0 +1,91 @@
+<include file="common/head" />
+	<style type="text/css">
+	
+	tr td{
+		text-align: center !important;
+		vertical-align: middle!important; 
+	}
+	.input-group{	
+		float:left;
+		padding-left:0px;
+		padding-top:0px;		
+	}
+	.input-group-addon{
+		width:50px;
+	}
+	.form-control{
+		width:200px!important;
+	} 
+	
+	tr td.td_left{
+		text-align:left !important;
+	}
+	h3 {
+		margin-top: 5px;
+		margin-bottom: 5px;
+	}		
+	form{
+		width:100%;
+	}
+	</style>
+  	<form id="addAdminGroupForm" method="post"  action="__APP__/Admin/Auth/addGroup" class="form-inline" role="form" enctype="multipart/form-data">
+  		<table  style="width:95%; margin:0 auto;" class="table  table-striped table-bordered table-condensed " >
+		 	<tr>
+			 	<td class="text-center" colspan="10">
+			 		<h3>{$Think.lang.addAdminGroup}</h3>
+			 		<input type="hidden" name="id" value="{$groupid}">
+			 	</td>
+		 	</tr>
+		 	<tr>
+		 		<td colspan="6" style="text-align: center;left:">
+		 			<div class="input-group"  style="position: relative;left:36%;width:300px;">
+					  <div class="input-group-addon" >{$Think.lang.AdminGroupName}</div>
+					  <input type="text" size="30" name="title"  class="form-control" />
+					</div>
+					<input type="submit" value="{$Think.lang.Add}"  class="btn  btn-default">
+		 		</td>
+		 	</tr>
+			<Volist name="result" id="vo">
+	 			<tr>
+	 				<td colspan="5" style="background-color:#E5E5E5;"><strong>{$vo.name}</strong></td>
+	 				<td style="background-color:#E5E5E5;">
+	 					<span id="model_{$vo.moderid}" class="auth_model_choose btn btn-default btn-xs">{$Think.lang.AllChoose}</span>
+	 					<span id="model_{$vo.moderid}" class="auth_model_choose_black btn btn-default btn-xs">{$Think.lang.ContraryChoose}</span>
+	 					<span id="model_{$vo.moderid}" class="auth_model_choose_cancel btn btn-default btn-xs">{$Think.lang.CancelChoose}</span>
+	 				</td>
+	 			</tr>				
+	 			<volist name="vo.data" id="auth">
+					<if condition="$key%6 eq 0" >
+						<tr><td>
+					<elseif condition="$key%6 elt 5"/>
+						<td>
+					</if>
+					<if condition="is_inArray($auth['id'],$groupAuthority)">
+			  			<input type="checkbox" name="authid[]" value="{$auth.id}" checked="checked" class="model_{$vo.moderid}" />
+				  	<else/>
+				  		<input type="checkbox" name="authid[]" value="{$auth.id}" class="check model_{$vo.moderid}"  />
+				  	</if>
+					{$auth.title}
+					<if condition="$key%6 lt 5" >
+						</td>
+					<elseif condition="$key%6 eq 5"/>
+						</td></tr>
+					</if>
+	 			</volist>
+	 		</Volist> 
+	  	</table>
+  	</form>
+  	<script type="text/javascript">
+  	layer.use('extend/layer.ext.js'); //载入layer拓展模块
+  	$(document).ready(function(){
+  		$("#addAdminGroupForm").submit(function(event) {
+  			if($("input[name='title']").val() ==""){
+  				layer.alert("{$Think.lang.PlaceAdminGroupName}",0,"{$Think.lang.Prompt}",function(index){
+  					layer.closeAll();
+  				})
+  				return false;
+  			}
+  		});
+  	});
+  	</script>
+<include file="common/footer"/>

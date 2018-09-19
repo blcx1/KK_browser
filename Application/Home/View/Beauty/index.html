@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html>
+    <head>				
+        <title>KENXINDA.BROWSER.{$Think.const.CONTROLLER_NAME}</title>
+        <meta charset="UTF-8">
+        <link rel="stylesheet" type="text/css" href="__PUBLIC__/home/css/header.css"/>
+        <link rel="stylesheet" type="text/css" href="__PUBLIC__/home/css/beauty.css"/>
+        <include file="layout/config_js" />
+        <script src="__PUBLIC__/home/js/jquery-1.7.2.js"></script>
+        <script src="__PUBLIC__/home/js/flexible.js"></script>		
+        <script src="__PUBLIC__/home/js/iscroll.js"></script>
+        <!--<script src="__PUBLIC__/home/js/common.js"></script>-->
+        <script src="__PUBLIC__/home/js/header.js"></script>
+    </head>
+	<body >
+		
+		<include file="layout/head" />
+		<div id="content" > 		
+		<div id="content-out">
+			<div id="content-in">
+				<div id="con-in">
+									
+				<div id="refresh" >
+					{$Think.lang.ARefreshing}
+					<img src="__PUBLIC__/home/img/5-121204193R2-50.gif"/>
+				</div>
+				<div class="b-out" id="wrapper">
+					<div class="b-in" id="scroller">
+						<ul class="b-list">
+							<volist role="presentation" name="type" id="tvo">
+								<li cid="{$tvo.id}" class="nav1" style="background-image: url('{$tvo.icon_image}');">
+                                                                    <a href="javascript:;" <if condition="$Think.const.LANG_SET eq 'en-us'" >style="font-size:0.17rem;"</if>>{$tvo.type_name}</a>
+								</li>
+							</volist>
+						</ul>
+					</div>				
+			   </div>
+			   <div class="separate"></div>
+
+				   	<div class="content">
+				   		<div class="con-list">
+				   			<div class="title-delete">
+					   			<div class="b-title">{$default_img[0][type_name]}</div>
+					   		</div>
+					   		<ul class="list">
+								<volist name="default_img" id="de_vo">
+									<li onclick="window.open('{$de_vo.link_address}','_self');">
+										<div><img class="b-img" src="{$de_vo.listimg}"></div>
+										<div class="b-promte">
+											<span class="b-fabulous">
+					   					</span>
+										</div>
+									</li>
+								</volist>
+					   		</ul>
+				   		</div>
+				   	</div>
+
+					<div class="separate"></div>
+
+					<div class="content1">
+						<div class="con-list1">
+                                                        <if condition="$new_img">
+							<div class="title-delete1">
+								<div class="b-title1">{$Think.lang.MoreBeautifulWomen}</div>
+							</div>
+                                                        </if>
+							<ul class="list">
+								<volist name="new_img" id="new_vo">
+									<li onclick="window.open('{$new_vo.link_address}','_self');">
+										<div><img class="b-img" src="{$new_vo.icon_image}"></div>
+										<div class="b-promte">
+											<span class="b-fabulous">
+                                                                                        </span>
+										</div>
+									</li>
+								</volist>
+							</ul>
+						</div>
+					</div>
+					<input type="hidden" value="1" id="page"/>
+				   <div id="loading" >
+					   	{$Think.lang.Aloading}
+					   	<img src="__PUBLIC__/home/img/5-121204193R2-50.gif"/>
+					</div>
+			   </div>
+			</div>
+				
+			</div>
+		</div>
+	<script>
+		var n=0;
+ function header(){
+                n++
+                $.ajax({
+                    url:API+"/Index/beautyType",
+                    type: 'post',
+                    cache: 'false',
+                    dataType: 'json',
+                    data:{
+			             nav_mark: "beauty_list",	
+			             page:n,
+			             size:6,
+			            },
+                    success: function (data) {
+//                  	console.log(data)
+                    	if(data.result.typeList==null){
+                    		n=0
+                    		header()
+                    		return false;
+                    	}
+                if(n!=1){
+	               if(data.result.typeList.length<6){
+	               	n=0;
+	               }
+               }
+                        for(var j in data.result){
+                        	var datas=data.result[j]
+                        
+                        var beau = '';
+                        $.each(datas,function(m,mval){
+                            beau += "<li onclick=\"window.open('"+mval.link_address+"','_self');\">" +
+                                "<div><img class=\"b-img\" src=\""+mval.icon_image+"\"></div>" +
+                                "<div class=\"b-promte\">" +
+                                "<span class=\"b-fabulous\">" +
+                                "</span></div></li>";
+                        });
+                       
+                        if(j=="type"){
+                        	 $(".list").eq(1).html(beau);
+                        }else{
+                        	$(".list").eq(0).html(beau);
+                        }
+                       
+                     
+                     }
+                      
+                        
+                    }
+                });
+
+               }
+            function footerLoad(){
+                var page = $("#page").val();
+                //console.log(page);
+                $.ajax({
+                    url: 'footerLoad.html',
+                    type: 'post',
+                    cache: 'false',
+                    dataType: 'json',
+                    data: {
+                        'keys': page
+                    },success: function (data) {
+                        if (data == 'no data') {
+                            $("#loading").html('{$Think.lang.NoMore}');
+                            return false;
+                        } else {
+                            page=Number(page)+1;
+                            $("#page").val(page);
+                        }
+                        var beau = '';
+                        $.each(data,function(m,mval){
+                            beau += "<li onclick=\"window.open('"+mval.link_address+"','_self');\">" +
+                                "<div><img class=\"b-img\" src=\""+mval.icon_image+"\"></div>" +
+                                "<div class=\"b-promte\">" +
+                                "<span class=\"b-fabulous\">" +
+                                "</span></div></li>";
+                        });                        	              
+                        $('.title-delete1').next('ul').append(beau);
+                        $("#loading").css("visibility","hidden")
+                      
+                        
+                    }
+                });
+
+               }
+
+        $('.b-list li').each(function(){
+            $(this).click(function(){
+                var id = $(this).attr('cid');
+                $.ajax({
+                    url:'categoryimg.html?id='+id,
+                    type:'get',
+                    cache:false,
+                    dataTpey:'json',
+                    success:function(data){
+                        $('.b-title').text(data[0].type_name);
+                        var li_dom = '';
+                        $.each(data,function(index,val){
+                            li_dom +="<li onclick=\"window.open('"+val.link_address+"','_self');\">" +
+                                "<div><img class=\"b-img\" src=\""+val.listimg+"\"></div>" +
+                                "<div class=\"b-promte\">" +
+                                "<!--<span class=\"b-number\">12张</span>-->" +
+                                "<span class=\"b-fabulous\">" +
+                                "<!--<img src=\"__PUBLIC__/home/img/kongxin.jpg\">-->" +
+                                "<!--<span>25</span>-->" +
+                                "</span></div></li>";
+                        });
+                        $('.title-delete').next('ul').html(li_dom);
+                    }
+                });
+            });
+        });
+	</script>
+
+</body>
+</html>

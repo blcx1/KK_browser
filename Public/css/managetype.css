@@ -1,0 +1,147 @@
+@CHARSET "UTF-8";
+body{ 
+	width: 90%;  
+	min-width: 825px;
+}
+.action_all_del{
+	width:825px;
+	padding-top:5px;
+	margin: 0 auto;
+}
+.comment{
+	width:825px;
+	padding-top:5px;
+	padding-bottom:5px;
+	
+	margin: 0 auto;
+}
+.themeitem_ul{
+	list-style: none;	
+	border-top:solid 1px gray;
+	border-left:solid 1px gray;
+	border-right:solid 1px gray;
+	display: block;
+	margin-bottom: 0px;
+	padding:0px;
+	height: 45px;
+	margin: 0px auto;
+	text-align: center;
+	vertical-align: middle;
+}
+
+.themeitem_ul li{
+	float:left;
+	height: 45px;
+	line-height:45px;
+	display: inline-block;
+}
+
+.li_check{
+	width: 10%;
+	border-right:solid 1px gray;
+}
+.li_id{
+	width: 10%;
+	border-right:solid 1px gray;
+}
+.li_name{
+	width: 50%;
+	border-right:solid 1px gray;
+}
+
+.li_icon{
+	width: 20%;	
+	border-right:solid 1px gray;
+}
+
+.li_type{
+	width: 50%;
+	border-right:solid 1px gray;
+}
+
+.li_action{
+	width: 20%;
+}
+
+.li_action a{
+	overline : none;
+	text-decoration:none;
+}
+
+.bottom_line{
+	display: block;
+	margin: 0px auto;
+	border-bottom:solid 1px gray;
+}
+.num{
+	margin-left: 5px;
+	margin-right: 5px;
+}
+.show_page_coment{
+	border:solid 1px gray;
+	border-top:none 1px gray;
+	height: 20px;
+	text-align:center;
+	vertical-align: middle;
+}
+
+.show_page{
+	border:solid 1px gray;
+	border-top:none 1px gray;
+	height: 20px;
+	text-align:center;
+	vertical-align: middle;
+}
+.show_page div a{
+	display:inline-block;
+}
+
+.search_result_ul{
+	list-style: none;	
+	border-top:solid 1px gray;
+	border-left:solid 1px gray;
+	border-right:solid 1px gray;
+	display: block;
+	margin-bottom: 0px;
+	padding:0px;
+	height: 30px;
+	margin: 0px auto;
+	width:100%;
+	text-align: center;
+	vertical-align: middle;
+}
+
+.xubox_page {
+	right: 0px;
+	padding: 10px;
+}
+.form-inline{
+	margin-bottom: 10px;
+}
+
+.search_result_ul li{
+	float:left;
+	height: 29px;
+	line-height:28px;
+	display: inline-block;
+}
+
+.result_li_check{
+	width: 20%;
+	border-right:solid 1px gray;
+}
+.result_li_id{
+	width: 20%;
+	border-right:solid 1px gray;
+}
+.result_li_name{
+	width: 30%;
+	border-right:solid 1px gray;
+}
+
+.result_li_icon{
+	width: 30%;	
+}
+.add_btn{
+	margin: 10px;
+}

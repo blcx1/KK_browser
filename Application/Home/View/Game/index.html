@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html>
+    <head>				
+        <title>KENXINDA.BROWSER.{$Think.const.CONTROLLER_NAME}</title>
+        <meta charset="UTF-8">
+        <link rel="stylesheet" type="text/css" href="__PUBLIC__/home/css/header.css"/>
+        <link rel="stylesheet" type="text/css" href="__PUBLIC__/home/css/game.css"/>
+        <include file="layout/config_js" />
+        <script src="__PUBLIC__/home/js/jquery-1.7.2.js"></script>
+        <script src="__PUBLIC__/home/js/flexible.js"></script>		
+        <script src="__PUBLIC__/home/js/iscroll.js"></script>
+        <!--<script src="__PUBLIC__/home/js/common.js"></script>-->
+        <script src="__PUBLIC__/home/js/header.js"></script>
+    </head>
+	<body >
+		
+		<include file="layout/head" />
+		<div id="content" > 		
+		<div id="content-out">
+			<div id="content-in">
+				<div id="con-in">
+					
+				
+				<div id="refresh" >
+					{$Think.lang.ARefreshing}
+					<img src="__PUBLIC__/home/img/5-121204193R2-50.gif"/>
+				</div>
+			
+			<div id="game-nav">			
+				<ul>
+					<volist name="type" id="type_vo">
+						<li cid="{$type_vo.id}"> <a href="javascript:;">{$type_vo.type_name}</a></li>
+					</volist>
+					
+				</ul>				
+			</div>
+			<div class="separate">
+				
+			</div>
+			<div id="game-con">
+				<div class="recommend">
+					<div class="game-title">
+						{$Think.lang.GameIntelligence}
+					</div>
+					<volist name="new_con" id="new_vo">
+						<div class="list1">
+							<a href="{$new_vo.link_address}">
+								<div class="list-title">
+									<img src="{$new_vo.icon}"/>
+									<p>{$new_vo.subtitle}</p>
+								</div>
+							</a>
+						</div><hr />
+					</volist>
+				</div>
+
+				<!--<div class="separate"></div>-->
+
+				<div id="game-down">
+					<div class="title">
+						{$Think.lang.HotRecommended}
+					</div>					
+					<div class="g-down-out">
+						<hr style="margin-top: 0;"/>
+					<volist name="recom" id="vo">
+                                        <div class="g-down-in">
+						<div class="g-img">
+							<img src="{$vo.icon}">
+						</div>
+						<!--<div class="g-middle">-->
+							<div class="g-name">{$vo.gamename}</div>
+							<div class="information">
+								<span class="g-size">{$vo.keyword.size}</span>
+								<span class="g-RPG">{$vo.keyword.RPG}</span>
+								<span class="g-type">{$vo.keyword.type}</span>
+							</div>
+						<div class="g-con">
+							{$vo.introduction}
+						</div>
+					
+						<div class="g-down">
+							{$Think.lang.Install}
+						</div>
+					</div>
+					<hr />
+                                        </volist>	
+				</div>
+
+				<div class="separate"></div>
+
+				<div class="more">
+
+				</div>
+
+			</div>
+			</div>
+		
+			<input type="hidden" value="1" id="page" />
+			<div id="loading">
+			{$Think.lang.Aloading}		   	
+                    <img src="__PUBLIC__/home/img/5-121204193R2-50.gif"/>
+			</div>
+		</div>
+		</div>
+		
+		</div>
+		</div>
+			<script>
+				     var n=0;
+				     function header(){
+				     	n++;
+                        
+                        $.ajax({
+                            url:API+"/Index/game",           
+				            data:{
+				             nav_mark: "game_list",	
+				             page:n,
+				             size:6,
+				            },
+                            type:'post',
+                            cache:false,
+                            dataType:'json',
+                            success:function(datas){
+                            	
+//                          	console.log(datas)
+                                var data=datas.result.gameInformer
+                                var data1=datas.result.typ
+                                var game_con="";
+                                var game_type="";
+                           
+                                $.each(data,function(index,gmval){
+//console.log(data)
+                                    game_con+="<div class=\"list1\">" +
+                                        "<a href=\""+gmval.link_address+"\">" +
+                                        "<div class=\"list-title\">" +
+                                        "<img src=\""+gmval.icon+"\"/>" +
+                                        "<p>"+gmval.subtitle+"</p>" +
+                                        "</div></a></div><hr />";
+
+                                });
+                                $('.recommend').html(game_con);
+					          
+                                
+                            }
+                        });
+                        
+                    }
+              function footerLoad(){
+                        var page = $('#page').val();  
+                        var gmame_con ='';
+                        $.ajax({
+                            url:'footerLoad.html?page='+page,
+                            type:'get',
+                            cache:false,
+                            dataType:'json',
+                            success:function(datas){
+                                if(datas=='no data'){
+                                    $('#loading').html('{$Think.lang.NoMore}');
+                                    return false;
+                                }else{
+                                    page = Number(page)+1;
+                                    $('#page').val(page);
+                                }
+                                $.each(datas,function(index,gmval){
+
+                                    gmame_con+="<div class=\"list1\">" +
+                                        "<a href=\""+gmval.link_address+"\">" +
+                                        "<div class=\"list-title\">" +
+                                        "<img src=\""+gmval.icon+"\"/>" +
+                                        "<p>"+gmval.subtitle+"</p>" +
+                                        "</div></a></div><hr />";
+
+                                });
+                                $('.more').append(gmame_con);
+					           $("#loading").css("visibility","hidden")
+                                
+                            }
+                        });
+                        
+                    }
+                
+
+                $('#game-nav ul li').each(function(){
+                    $(this).click(function(){
+                        var cid = $(this).attr('cid');
+                        $.ajax({
+                            url:'categery_newcon.html?id='+cid,
+                            type:'get',
+                            cache:false,
+                            dataType:'json',
+                            success:function(data){
+                                var game_con="<div class=\"game-title\">游戏情报</div>";
+                                $.each(data,function(index,gval){
+                                    game_con+="<div class=\"list1\">" +
+                                        "<a href=\""+gval.link_address+"\">" +
+                                        "<div class=\"list-title\">" +
+                                        "<img src=\""+gval.icon+"\"/>" +
+                                        "<p>"+gval.subtitle+"</p>" +
+                                        "</div></a></div><hr />";
+                                });
+                                $('.recommend').html(game_con);
+                            }
+                        });
+                    });
+                });
+			</script>
+	</body>
+</html>

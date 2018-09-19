@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html>
+    <head>				
+        <title>KENXINDA.BROWSER.{$Think.const.CONTROLLER_NAME}</title>
+        <meta charset="UTF-8">
+        <link rel="stylesheet" type="text/css" href="__PUBLIC__/home/css/header.css"/>
+        <link rel="stylesheet" type="text/css" href="__PUBLIC__/home/css/funny.css"/>
+        <link rel="stylesheet" type="text/css" href="__PUBLIC__/home/css/video.css"/>
+        <include file="layout/config_js" />
+        <script src="__PUBLIC__/home/js/jquery-1.7.2.js"></script>
+        <script src="__PUBLIC__/home/js/flexible.js"></script>		
+        <script src="__PUBLIC__/home/js/iscroll.js"></script>
+        <!--<script src="__PUBLIC__/home/js/common.js"></script>-->
+        <script src="__PUBLIC__/home/js/header.js"></script>
+    </head>
+	<body >
+		
+		<include file="layout/head" />
+		<div id="content" > 	
+		<div id="content-out">
+			<div id="content-in">
+				<div id="con-in">
+					<div id="refresh" >
+					{$Think.lang.ARefreshing}
+					<img src="__PUBLIC__/home/img/5-121204193R2-50.gif"/>
+				</div>
+				<ul class="list">
+					<volist name="funnylist" id="vo">
+						<if condition="$vo.mimtype eq 'jpg'">
+							<li>
+								<a href="{$vo.link_address}">
+									<div class="f-title">{$vo.tit_name}</div>
+									<div class="f-img">
+										<?php
+											$imgs = explode(',',$vo[icon_image]);
+											if(count($imgs)>1){
+												foreach($imgs as $imgval){
+													echo "<img src='".$imgval."'>";
+										  		}
+											}else{
+										    	echo "<img src='".$imgs[0]."'>";
+										    }
+										?>
+									</div>
+								</a>
+								<div class="footer">
+									<div class="f-source">
+										{$vo.type_name}
+									</div>
+									<div class="fabulous">
+										<!--<p>{$vo.praise}</p>-->
+									</div>
+								</div>
+							</li>
+						<elseif condition="$vo.mimtype eq 'txt'" />
+							<li>
+								<a href="{$vo.link_address}">
+									<div class="funny-con">
+										<p>{$vo.txt_content}</p>
+									</div>
+								</a>
+								<div class="footer">
+									<div class="f-source">
+										{$vo.type_name}
+									</div>
+									<div class="fabulous">
+									</div>
+								</div>
+							</li>
+						<elseif condition="$vo.mimtype eq 'mp4'" />
+							<li>
+								<div class="video-out">
+									<div class="vidoe-in">
+										<a href="{$vo.link_address}">
+											<div class="video-con" style="background:url('{$vo.icon_image}') no-repeat;background-size: cover;">
+												<div class="video-title">
+													{$vo.tit_name}
+												</div>
+												<i></i>
+												<div class="promte">
+												</div>
+											</div>
+										</a>
+										<div class="footer">
+											<div class="f-source">
+												{$vo.type_name}
+											</div>
+											<div class="fabulous">
+											</div>
+										</div>
+									</div>
+								</div>
+							</li>
+						</if>
+					</volist>
+				</ul>
+				<input type="hidden" value="1" id="page"/>
+				<div id="loading">
+				   	{$Think.lang.Aloading}
+				   	<img src="__PUBLIC__/home/img/5-121204193R2-50.gif"/>
+			</div>
+				</div>
+			</div>
+			
+			</div>
+		</div>
+	<script>
+		var n=0;
+		function header(){
+			n++;
+               
+                $.ajax({
+                    url:API+"/Index/funny",
+                    type:'post',
+                    cache:'false',
+                    dataType:'json',
+                    data:{
+			             nav_mark: "funny_list",	
+			             page:n,
+			             size:6,
+		            },
+                    success:function(data){
+                    	
+                        if(n!=1){
+			               if(data.result.length<6){
+			               	n=0;
+			               }
+		               }
+
+
+                        var ref = '';
+                        $.each(data.result,function(index,val){
+                        
+                            if(val.mimtype=='jpg') {
+                                var img = '';
+                                var imgpath = '';                            
+                                img = val.icon_image;
+                                if (img.length > 1) {
+                                    $.each(img, function (n, nval) {
+                                        imgpath += "<img src='" + nval + "'/>";
+                                    });
+                                } else {
+                                    imgpath = "<img src='" + img[0] + "'/>";
+                                }
+
+                                ref += "<li><a href=\"" + val.link_address + "\">" +
+                                    "<div class=\"f-title\">" + val.tit_name + "</div>" +
+                                    "<div class=\"f-img\">" + imgpath + "</div>" +
+                                    "</a>" +
+                                    "<div class=\"footer\">" +
+                                    "<div class=\"f-source\">"+val.type_name+"</div>" +
+                                    "<div class=\"fabulous\">" +
+                                    "<p style='display:none;'>" + val.praise + "</p>" + "</div></div></li>";
+                            }else if(val.mimtype=='txt'){
+                                ref +="<li>" +
+                                    "<a href=\""+val.link_address+"\">" +
+                                    "<div class=\"funny-con\">" +
+                                    "<p>"+val.txt_content+"</p></div>" +
+                                    "</a>" +
+                                    "<div class=\"footer\">" +
+                                    "<div class=\"f-source\">"+val.type_name+"</div>" +
+                                    "<div class=\"fabulous\">" +
+                                    "<p style='display: none;'>"+val.praise+"</p>" +
+                                    "</div></div></li>";
+                            }else if(val.mimtype=='mp4'){
+                                ref +="<li>" +
+                                    "<div class=\"video-out\">" +
+                                    "<div class=\"vidoe-in\">" +
+                                    "<a href=\""+val.link_address+"\">" +
+                                    "<div class=\"video-con\" style=\"background:url('"+val.icon_image+"') no-repeat;background-size: cover;\">" +
+                                    "<div class=\"video-title\">"+val.tit_name+"</div>" +
+                                    "<i></i>" +
+                                    "<div class=\"promte\">" +
+                                    "</div></div></a>" +
+                                    "<div class=\"footer\">" +
+                                    "<div class=\"f-source\">"+val.type_name+"</div>" +
+                                    "<div class=\"fabulous\">" +
+                                    "<!--<img src=\"/static/assets/new/fun/up.png\"/>-->" +
+                                    "<p style='display: none;'>"+val.praise+"</p>" +
+                                    "</div></div></div></div></li>";
+                            }
+                        });
+                        $("#refresh").next('ul').html(ref);
+					
+                       
+                    }
+                });
+            }
+            function footerLoad(){
+                var page = $("#page").val();
+                $.ajax({
+                    url:'footerLoad.html',
+                    type:'post',
+                    cache:'false',
+                    dataType:'json',
+                    data:{
+                        'keys':page
+                    },success:function(data){
+                        if(data==null){
+                            $("#loading").html('{$Think.lang.NoMore}');
+                            return false;
+                        }else{
+                            page = Number(page)+1;
+                            $("#page").val(page);
+                        }
+                        var ref = '';
+                        $.each(data,function(index,val){
+                            if(val.mimtype=='jpg') {
+                                var img = '';
+                                var imgpath = '';
+                                img = val.icon_image.split(',');
+                                if (img.length > 1) {
+                                    $.each(img, function (n, nval) {
+                                        imgpath += "<img src='" + nval + "'/>";
+                                    });
+                                } else {
+                                    imgpath = "<img src='" + img[0] + "'/>";
+                                }
+
+                                ref += "<li><a href=\"" + val.link_address + "\">" +
+                                    "<div class=\"f-title\">" + val.tit_name + "</div>" +
+                                    "<div class=\"f-img\">" + imgpath + "</div>" +
+                                    "</a>" +
+                                    "<div class=\"footer\">" +
+                                    "<div class=\"f-source\">"+val.type_name+"</div>" +
+                                    "<div class=\"fabulous\">" +
+                                    "<p style='display:none;'>" + val.praise + "</p>" + "</div></div></li>";
+                            }else if(val.mimtype=='txt'){
+                                ref +="<li>" +
+                                    "<a href=\""+val.link_address+"\">" +
+                                    "<div class=\"funny-con\">" +
+                                    "<p>"+val.txt_content+"</p></div>" +
+                                    "</a>" +
+                                    "<div class=\"footer\">" +
+                                    "<div class=\"f-source\">"+val.type_name+"</div>" +
+                                    "<div class=\"fabulous\">" +
+                                    "<p style='display: none;'>"+val.praise+"</p>" +
+                                    "</div></div></li>";
+                            }else if(val.mimtype=='mp4'){
+                                ref +="<li>" +
+                                    "<div class=\"video-out\">" +
+                                    "<div class=\"vidoe-in\">" +
+                                    "<a href=\""+val.link_address+"\">" +
+                                    "<div class=\"video-con\" style=\"background:url('"+val.icon_image+"') no-repeat;background-size: cover;\">" +
+                                    "<div class=\"video-title\">"+val.tit_name+"</div>" +
+                                    "<i></i>" +
+                                    "<div class=\"promte\">" +
+                                    "</div></div></a>" +
+                                    "<div class=\"footer\">" +
+                                    "<div class=\"f-source\">"+val.type_name+"</div>" +
+                                    "<div class=\"fabulous\">" +
+                                    "<!--<img src=\"/static/assets/new/fun/up.png\"/>-->" +
+                                    "<p style='display: none;'>"+val.praise+"</p>" +
+                                    "</div></div></div></div></li>";
+                            }
+                        });
+                        $("#refresh").next('ul').append(ref);
+					$("#loading").css("visibility","hidden")
+                       
+                    }
+                });
+            }
+        
+	</script>
+	</body>
+</html>

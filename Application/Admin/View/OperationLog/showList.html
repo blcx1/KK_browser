@@ -1,0 +1,90 @@
+<include file="common/head" />
+<style>
+	.tab_list td{
+		font-weight:700;
+	}
+	.btn-xs{
+		width:60px;
+		line-height:24px;
+		height: 24px;
+	}
+	body{
+		min-width: 920px;
+	}
+	
+</style>
+	<table  style="width:99%; margin:0 auto;" class="table  table-striped table-bordered table-condensed " >
+		<tr>
+			<td colspan="11" class="text-center"><h3>{$Think.lang.ShowList}</h3></td>
+		</tr>
+		<tr>
+			<td colspan="11" class="text-center">
+				<form id="updateAdminPwdForm" method="post" action="__APP__/Admin/OperationLog/showList"  class="form-inline" role="form" style="width:auto; margin: 0 auto;">
+					<div style="margin:5px 15px;display: inline-block;position: absolute;left: 0;">	
+						<input id ="select"   type="button"   class=" btn btn-default" value="{$Think.lang.AllChoose}" /> 
+						<input type="button" name="{$Think.lang.Delete}" class=" btn btn-default" value="{$Think.lang.Delete}" onclick="javascript:if(confirm('{$Think.lang.DelOK}')) modify_form_action('listForm','__APP__/Admin/OperationLog/deleteInfo.html');"/>
+					</div>
+					<div style="text-align: center;display: inline-block;margin: auto;">
+						
+						<div class="input-group"  >
+						  <div class="input-group-addon">{$Think.lang.UserName}</div>
+						  <input type="text" name="user_name"  class="form-control" value="{$user_name}" />
+						</div>
+						<div class="input-group"  >
+						  <div class="input-group-addon">{$Think.lang.OperateName}</div>
+						  <input type="text" name="operate_name"  class="form-control" value="{$operate_name}" />
+						</div>					
+						<input type="submit" name="btn" style="float:left;margin:5px;" class="btn btn-default" value="{$Think.lang.Query}" /> 
+						
+					</div>
+				</form>
+			</td>
+		</tr>
+	</table>
+	<form id="listForm" method="post" action=""  class="form-inline" role="form" style="width:auto; margin: 0 auto;">
+	
+	<table  style="width:99%; margin:0 auto;" class="table  table-striped table-bordered table-condensed " >
+		<tr class="tab_list">
+		
+				<td style="width:5%"> {$Think.lang.Id}</td>					
+				<td  style="width:5%">{$Think.lang.UserName}</td>
+				<td style="width:5%">{$Think.lang.OperateID}</td>
+				<td style="width:20%">{$Think.lang.OperateName}</td>
+				<td style="width:5%">{$Think.lang.OperateIp}</td>
+				<td style="width:20%">{$Think.lang.OperateUserAgent}</td>				
+				<td style="width:5%">{$Think.lang.OperateBrowse}</td>		
+				<td style="width:5%">{$Think.lang.OperateOS}</td>		
+				<td style="width:10%">{$Think.lang.CreateTime}</td>
+				<td style="width:10%">{$Think.lang.updTime}</td>
+				<td  style="width:10%">{$Think.lang.Operation}</td>
+			</tr>
+			<Volist name="showList" id="value"> 
+			
+			<tr>
+				<td style="margin:0 auto;">
+					<input type="checkbox" value="{$value.id}" name="check[]" class="check"> {$value.id}
+				</td>				
+				<td><a href="__APP__/Admin/Admin/showAdmin.html?id={$value.admin_id}" title="{$Think.lang.Detail}">{$value.admin_name|stripslashes}</td>
+				<td>{$value.operate_id}</td>
+				<td>{$value.operate_name|stripslashes}</td>
+				<td>{$value.operate_ip|stripslashes}</td>
+				<td><div class="tite-out" title="{$value.operate_useragent|stripslashes}">{$value.operate_useragent|stripslashes}</div></td>
+				<td>{$value.operate_browse|stripslashes}</td>
+				<td>{$value.operate_os|stripslashes}</td>
+				<td>{$value.add_time}</td>
+				<td>{$value.update_time}</td>
+				<td>
+					<a href="__APP__/Admin/OperationLog/getDetail.html?id={$value.id}" title="{$Think.lang.Detail}" class="btn btn-default btn-xs">{$Think.lang.Detail}</a>					
+					<a href="__APP__/Admin/OperationLog/deleteInfo.html?id={$value.id}"
+					onclick="return confirm('{$Think.lang.DelOK}')" class="btn btn-default btn-xs" >{$Think.lang.Delete}</a>
+				</td>
+			</tr>
+			
+			</Volist>
+			
+		<tr>
+			<td colspan="11" style="text-align: center;"><div style="float:left;display:inline-block;"></div><div style="display:inline-block;">{$show}</div><div style="display:inline-block;margin-left:15px;">{$Think.lang.Amount}: {$amount}</div></td>
+		</tr>
+	</table>
+	</form>
+<include file="common/footer"/>

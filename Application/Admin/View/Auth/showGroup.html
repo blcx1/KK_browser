@@ -1,0 +1,36 @@
+<include file="common/head" />
+	<style type="text/css">
+		h3 {
+			margin-top: 5px;
+			margin-bottom: 5px;
+		}
+		.tab_list td{
+			font-weight:700;
+		}
+	</style>
+  	<form id="addAdminUserForm" method="post" enctype="multipart/form-data" action="__APP__/Admin/Admin/addAdmin" class="form-inline" role="form">
+  		<table  style="/*width:600px; */width:765px;margin:0 auto;text-align: center;" class="table  table-striped table-bordered table-condensed " >
+		 	<tr>
+		 		<td class="text-center" colspan="3">
+		 			<h3>{$Think.lang.AdminGroupList}<a href="__APP__/Admin/Auth/addGroup" style="margin-left:20px;" class="btn btn-default">{$Think.lang.addAdminGroup}</a></h3>
+		 		</td>
+		 	</tr>
+			<tr class="tab_list">
+				<td>{$Think.lang.AdminId}</td>
+				<td>{$Think.lang.Name}</td>
+				<td>{$Think.lang.Operation}</td>
+			</tr>
+			<Volist name="groupList" id="group">
+			<tr>
+				<td style="vertical-align: middle;">{$group.id}</td>
+				<td style="vertical-align: middle;">{$group.title}</td>
+				<td style="vertical-align: middle;">
+				  	<a href="__APP__/Admin/Auth/getAllAuth.html?id={$group.id}" class="btn btn-default">{$Think.lang.AllotAuthority}</a>
+					<a href="__APP__/Admin/Auth/manageGroupMaster.html?id={$group.id}" class="btn btn-default">{$Think.lang.Members}</a>
+					<a href="__APP__/Admin/Auth/deleteGroup.html?id={$group.id}" onclick="return confirm('{$Think.lang.DelOK}？')" class="btn btn-default">{$Think.lang.Delete}</a>
+				</td>
+			</tr>
+			</Volist>
+	  	</table>
+  	</form>
+<include file="common/footer"/>

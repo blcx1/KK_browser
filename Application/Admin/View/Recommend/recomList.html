@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>{$Think.lang.RecommendList}</title>
+	<link href="__PUBLIC__/lib/bootstrap/css/bootstrap.css" rel="stylesheet">
+	<link rel="stylesheet" type="text/css" href="__PUBLIC__/css/admin-all.css" />
+	<link rel="stylesheet" type="text/css" href="__PUBLIC__/css/formui.css"/>
+	<link href="__PUBLIC__/css/listtheme.css" type="text/css" rel="stylesheet">
+	<script type="text/javascript" src="__PUBLIC__/lib/jquery-1.8.3.min.js"></script>
+	<script type="text/javascript" src="__PUBLIC__/lib/My97DatePicker/WdatePicker.js"></script>
+	<style type="text/css">
+		
+		#unsub,#unsub1{
+			background-color: #f0ad4e;
+			color: white;
+			
+		}
+		#sear_recomm,#sear_recomm{
+			background-color: #5bc0de;
+			color: white;
+		}
+        .tite1{
+        	display: inline-grid;
+    
+		    white-space: nowrap;
+		    overflow: hidden;
+        }
+.a{
+	
+}
+#bb{
+	display: inline-block;
+	
+}
+	</style>
+</head>
+<body >
+<div class="alert alert-info" style="padding: 2px;">
+	{$Think.lang.Position}<b class="tip"></b>
+	{$Think.lang.RecommendManage}<b class="tip"></b>
+	{$Think.lang.RecommendList}</div>
+	<div style="width:600px;height:30px;margin:0 auto;margin-bottom:20px;">
+		<form type="get" action="__APP__/Admin/Recommend/recomm_search">
+			<span style="float:left;"><input class="form-control" type="text" name="key" placeholder="{$Think.lang.Search}{$Think.lang.Title}"/></span>
+			<span style="float:left;margin-left:8px;">
+				<select class="form-control" id="relang"  name="language1">
+					<option value="all" selected>所有语言</option>
+					<volist name="lang" id="vo">
+						<option value="{$vo.iso_code}">{$vo.name}</option>
+					</volist>
+				</select>
+			</span>
+			<span style="float:left;margin-left:8px;">
+				<select class="form-control" id="seartype" name="seartype">
+					<option value="all" selected>-所有分类-</option>
+					<option value="2">新闻</option>
+					<option value="3">视频</option>
+					<option value="4">娱乐</option>
+					<option value="12">News</option>
+					<option value="13">Video</option>
+					<option value="14">Entertainment</option>
+					<option value="22">新聞</option>
+					<option value="23">視頻</option>
+					<option value="24">娛樂</option>
+				</select>
+			</span>
+			<span style="margin-left:8px;float:left;"><input class="btn btn-default" type="submit" value="搜索"/></span>
+		</form>
+	</div>
+<div>
+	<table  style="width:90%;text-align: center; margin:0 auto;" class="table  table-striped table-bordered table-condensed " >
+
+		<form method="post" action="__APP__/Admin/Recommend/delrecommendList" id="from_delete">
+
+			<tr>
+				<td colspan="10" >
+					<span  class="btn btn-default select_all"  style='margin: 0 5px;'>{$Think.lang.AllChoose}</span>
+					<span  class="btn btn-default re_select_all" style='margin: 0 5px;'>{$Think.lang.ContraryChoose}</span>
+					<input id="addBtn" type="button" class="btn btn-default" value="{$Think.lang.Add}" />
+					<input type="submit"  style='margin: 0 5px;' class="btn btn-default" onclick="return confirm('{$Think.lang.DelOK}？')" value="{$Think.lang.Delete}"/>
+				</td>
+			</tr>
+			<tr class="tab_list">
+				<td style="width: 5%;">{$Think.lang.Check}</td>
+				<td style="width: 5%;">{$Think.lang.AdminId}</td>
+				<td style="width: 5%;">{$Think.lang.nav}{$Think.lang.AdminId}</td>
+				<td style="width: 5%;">{$Think.lang.Detail}{$Think.lang.AdminId}</td>
+				<td style="width: 5%;">{$Think.lang.Type}</td>
+				<td style="width: 35%;">{$Think.lang.Title}</td>
+				<td style="width: 20%;">{$Think.lang.Link}</td>
+				<td style="width: 10%;">{$Think.lang.language}</td>
+				<td style="width: 10%;">{$Think.lang.Operate}</td>
+			</tr>
+			<Volist name="res" id="vo">
+				<tr>
+					<td><input class="check" type="checkbox" name="check[]" value="{$vo.oid}"></td>
+					<td>{$vo.oid}</td>
+					<td>{$vo.nav_id}</td>
+					<td>{$vo.pid}</td>
+					<td>{$vo.name}</td>
+					<td><div class="tite-out"><a target="_blank" href="{$vo.link_address}" title="{$vo.tit_name}">{$vo.tit_name}</a></div></td>
+					<td><div class="tite-out"><a target="_blank" href="{$vo.link_address}" title="{$vo.link_address}">{$vo.link_address}</a></div></td>
+					<td>{$vo.language}</td>
+					<td>
+						<button type="button" oid="{$vo.oid}" name_tit="{$vo.tit_name}" lang="{$vo.l}" navid="{$vo.nav_id}" class="btn btn-primary btn-sm uprec">更新</button>
+						<a href="__MODULE__/Recommend/delrecommendList.html?check={$vo.oid}" class="btn btn-warning btn-sm">删除</a>
+					</td>
+				</tr>
+			</Volist>
+			<tr>
+				<td colspan="10" style="text-align: center;">
+					<span id="page-count">{$page}</span>
+					<span id="page-counts">{$Think.lang.Amount} : {$count}</span>
+				</td>
+			</tr>
+
+		</form>
+	</table>
+</div>
+<!--添加窗口 start-->
+<div id="addnav" style="display:none; width:500px; min-height:260px;border-bottom: 1px solid #D5D5D5; position:absolute;z-index:2;top:100px;left:50%;margin-left: -250px; background:white; box-shadow: 5px 15px 10px #ccc;">
+	<form>
+		<div style="width: 100%;height: 35px;line-height: 35px;background:#eee;text-align:center;border-bottom: 1px solid #D5D5D5;font-size: 14px;color: #333;">添加推荐</div>
+		<div style="padding:30px;">
+			<div class="input-group">
+				<div class="input-group-addon">语言：</div>
+				<select class="form-control" id="lang_type" name="language">
+					<volist name="lang" id="vo">
+						<option value="{$vo.iso_code}">{$vo.name}</option>
+					</volist>
+				</select>
+			</div>
+			<div class="input-group" style="margin-top:10px;">
+				<div class="input-group-addon">类型：</div>
+				<select class="form-control" id="types" name="nav_id">
+					<option value="2">新闻</option>
+					<option value="3">视频</option>
+					<option value="4">娱乐</option>
+				</select>
+			</div>
+			<div class="input-group" style="margin-top:10px;">
+				<div class="input-group-addon">搜索名称：</div>
+				<input class="form-control" style="width:250px;" type="text" id="sm_name" name="name">
+			</div>
+			<div class="input-group" style="margin-top:10px;">
+				<input class="btn btn-default" id="sear_recomm" type="button" value="搜索">&nbsp;&nbsp;&nbsp;
+				<input class="btn btn-default" id="unsub" type="button" value="取消">
+			</div>
+		</div>
+	</form>
+	<div id="searchres" style="display:none;width:100%; min-height:220px; padding:10px; background:white; box-shadow: 5px 15px 10px #ccc;">
+		<table id="search" style="margin-top:140px;margin-bottom:15px;" class="table table-bordered text-center table-striped">
+
+		</table>
+		<input style="margin-left:50px;" type="button" class="btn btn-info" value="添加" id="addid"/>
+		<input onclick="$('#searchres').hide();$('#search').html();" type="button" class="btn btn-warning" value="取消"/>
+	</div>
+</div>
+<!--添加窗口 end-->
+<!--更新窗口 start-->
+<div id="updatenav" style="display:none; width:500px; padding-bottom:20px; min-height:360px; border:1px solid #eee; position:fixed;z-index:999;top:100px;left:50%; margin-left:-250px; background:white; box-shadow: 5px 15px 10px #ccc;">
+	<form>
+		<div style="width: 100%;height: 35px;line-height: 35px;background:#eee;text-align:center;border-bottom: 1px solid #D5D5D5;font-size: 14px;color: #333;">更新推荐</div>
+		<div style="padding:30px;">
+			<div id="utname" oid="" class="input-group">
+				<div class="input-group-addon">名称：</div>
+				<input class="form-control" id="disabledInput" disabled style="width:278px;" type="text" name="name">
+			</div>
+
+			<div class="input-group" style="margin-top:10px;">
+				<div class="input-group-addon">语言：</div>
+				<select class="form-control" id="utnav" name="language1">
+					<volist name="lang" id="vo">
+						<option value="{$vo.iso_code}">{$vo.name}</option>
+					</volist>
+				</select>
+			</div>
+
+			<div class="input-group" style="margin-top:10px;">
+				<div class="input-group-addon">类型：</div>
+				<select class="form-control" id="uttype" name="nav_id1">
+					<option value="2">新闻</option>
+					<option value="3">视频</option>
+					<option value="4">娱乐</option>
+					<option value="12">News</option>
+					<option value="13">Video</option>
+					<option value="14">Entertainment</option>
+					<option value="22">新聞</option>
+					<option value="23">視頻</option>
+					<option value="24">娛樂</option>
+				</select>
+			</div>
+
+			<div class="input-group" style="margin-top:10px;">
+				<div class="input-group-addon">搜索名称：</div>
+				<input class="form-control" style="width:250px;" type="text" id="sm_name1" name="name">
+			</div>
+			<div class="input-group" style="margin-top:10px;">
+				<button class="btn btn-default" id="sear_recomm1" type="button" >搜索</button>
+				<input class="btn btn-default" id="unsub1"style=" margin-left: 30px;" type="button" value="取消">
+			</div>
+
+			<div id="searchres1" style="display:none;width:100%; min-height:220px; padding:10px; background:white;">
+				<table id="search1" style="margin-top:210px;margin-bottom:15px;" class="table table-bordered text-center table-striped">
+
+				</table>
+				<div class="input-group" style="margin-top:10px;">
+					<button type="button" style="margin-right:10px;" class="btn btn-info" id="updates">更新</button>
+					<button type="button" class="btn btn-warning"style=" margin-left: 30px;" onclick="$('#updatenav').hide(); $('#search1').html('');$('#searchres1').hide();">取消</button>
+				</div>
+			</div>
+		</div>
+	</form>
+</div>
+<!--更新窗口 end-->
+<script>
+
+	//添加功能中的关键字搜索
+	$('#sear_recomm').click(function(){
+		var sm_name = $('#sm_name').val();
+		var nav_id = $('select[name=nav_id]').val();
+		var language = $('select[name=language]').val();
+		if(sm_name==''){
+			alert('名称不能为空');
+			return false;
+		}
+		$.ajax({
+			url:'__CONTROLLER__/search.html',
+			type:'post',
+			dataType:'json',
+			data:{
+				'name':sm_name,
+				'nav_id':nav_id,
+				'language':language
+			},
+			success:function(data){
+				if(data!='no data'){
+					var dom="<tr><td>选择</td><td>标题</td></tr>";
+					$.each(data,function(index,val){
+						dom +="<tr>" +
+							"<td><input type=\"checkbox\" style='text-align:center;' name=\"checks\" value=\""+val.id+"\"></td>" +
+							"<td>"+val.tit_name+"</td>" +
+							"</tr>";
+						$('#search').html(dom);
+						$('#searchres').show();
+					});
+				}else{
+					var dom="<tr><td>选择</td><td>标题</td></tr><tr><td colspan='2' style='text-align:center;color:red;'>没有数据</td></tr>";
+					$('#search').html(dom);
+					$('#searchres').show();
+				}
+			}
+		});
+	})
+
+    //更新功能中的关键字搜索
+    $('#sear_recomm1').click(function(){
+        var sm_name = $('#sm_name1').val();
+        var nav_id = $('select[name=nav_id1]').val();
+        var language = $('select[name=language1]').val();
+
+        if(sm_name==''){
+            alert('搜索名称不能为空');
+            return false;
+        }
+        $.ajax({
+            url:'__CONTROLLER__/search.html',
+            type:'post',
+            dataType:'json',
+            data:{
+                'name':sm_name,
+                'nav_id':nav_id,
+                'language':language
+            },
+            success:function(data){
+                if(data!='no data'){
+                    var dom="<tr><td>选择</td><td>标题</td></tr>";
+                    $.each(data,function(index,val){
+                        dom +="<tr>" +
+                            "<td><input type=\"radio\" style='text-align:center;' name=\"checks\" value=\""+val.id+"\"></td>" +
+                            "<td>"+val.tit_name+"</td>" +
+                            "</tr>";
+                        $('#search1').html(dom);
+                        $('#searchres1').show();
+                    });
+                }else{
+                    var dom="<tr><td>选择</td><td>标题</td></tr><tr><td colspan='2' style='text-align:center;color:red;'>没有数据</td></tr>";
+                    $('#search1').html(dom);
+                    $('#searchres1').show();
+                }
+            }
+        });
+    })
+
+	//选择操作
+    $(document).ready(function(){
+        $(".select_all").click( function () {
+            $check = $(".check");
+            if($check.attr("checked") != "checked"){
+                $check.attr("checked",true);
+            }else{
+                $check.attr("checked",false);
+            }
+        });
+        $(".re_select_all").click( function () {
+
+            $(".check").each(function()	{
+                if($(this).attr("checked") != "checked"){
+                    $(this).attr("checked",true);
+                }else{
+                    $(this).attr("checked",false);
+                }
+            });
+        });
+
+        //点击显示添加窗口
+        $("#addBtn").click(function(){
+            $("#addnav").show();
+        });
+        $("#unsub").click(function(){
+            $("#addnav").hide();
+        });
+
+        $("#unsub1").click(function(){
+            $("#updatenav").hide();
+            $('#search1').html('');
+            $('#searchres1').hide();
+        });
+
+        //添加推荐选择语言切换分类
+        $("#lang_type option").eq(0).prop("selected", 'selected');
+        $('#lang_type').change(function(){
+            var lt = $(this).val();
+            if(lt=='zh-cn'){
+                $('#types').html("<option value=\"2\">新闻</option>" +
+                    "<option value=\"3\">视频</option>" +
+                    "<option value=\"4\">娱乐</option>");
+            }else if(lt=="en-us"){
+                $('#types').html("<option value=\"12\">News</option>" +
+                    "<option value=\"13\">Video</option>" +
+                    "<option value=\"14\">Entertainment</option>");
+            }else if(lt=="zh-tw"){
+                $('#types').html("<option value=\"22\">新聞</option>" +
+                    "<option value=\"23\">視頻</option>" +
+                    "<option value=\"24\">娛樂</option>");
+			}
+        });
+
+        //搜索推荐选择语言切换分类
+        $("#relang option").eq(0).prop("selected", 'selected');
+        $('#relang').change(function(){
+            var lt = $(this).val();
+            if(lt=='zh-cn'){
+                $('#seartype').html("<option value=\"all_cn\">所有分类</option><option value=\"2\">新闻</option>" +
+                    "<option value=\"3\">视频</option>" +
+                    "<option value=\"4\">娱乐</option>");
+            }else if(lt=="en-us"){
+                $('#seartype').html("<option value=\"all_en\">所有分类</option><option value=\"12\">News</option>" +
+                    "<option value=\"13\">Video</option>" +
+                    "<option value=\"14\">Entertainment</option>");
+            }else if(lt=="zh-tw"){
+                $('#seartype').html("<option value=\"all_tw\">所有分类</option><option value=\"22\">新聞</option>" +
+                    "<option value=\"23\">視頻</option>" +
+                    "<option value=\"24\">娛樂</option>");
+            }else{
+                $('#seartype').html("<option value='all'>-所有分类-</option><option value=\"2\">新闻</option><option value=\"3\">视频</option><option value=\"4\">娱乐</option><option value='12'>News</option><option value=\"13\">Video</option><option value=\"14\">Entertainment</option><option value=\"22\">新聞</option><option value=\"23\">視頻</option><option value=\"24\">娛樂</option>");
+            }
+        });
+
+        //更新操作数据选中
+        $('.uprec').each(function(){
+            $(this).click(function(){
+                $('#utname').children('input').val('');
+                $('#utnav option').eq(0).prop("selected", 'selected');
+                $('#uttype option').eq(0).prop("selected", 'selected');
+                $('#updatenav').show();
+
+				var utname = $(this).attr('name_tit');
+                var lang = $(this).attr('lang');
+                var navid = $(this).attr('navid');
+                var oid = $(this).attr('oid');
+
+                $('#utname').children('input').val(utname);
+                $('#utname').attr('oid',oid);
+                $('#utnav option[value='+lang+']').prop("selected", 'selected');
+                $('#uttype option[value='+navid+']').prop("selected", 'selected');
+
+            });
+        });
+
+        //更新操作数据提交
+		$('#updates').click(function(){
+		    //数据id
+            var checkinfoid = $("#search1 input[type='radio']:checked").val();
+           if(!checkinfoid){
+               alert('还没有选择数据，不能更新');
+               return false;
+		   }
+            $.ajax({
+                url:'__CONTROLLER__/updateRecomm.html',
+                type:'post',
+                dataType:'json',
+                data:{
+                    //推荐id
+                    'oid': $('#utname').attr('oid'),
+					//类型id
+                    'navid':$('#uttype').val(),
+					//语言
+                    'lang':$('#utnav').val(),
+					//搜索后的选择的数据id
+					'did':checkinfoid
+                },
+                success:function(data){
+                   
+                    if(data=='ok'){
+                        alert('更新成功！');
+                        location.reload();
+                    }else if(data=='repeat'){
+                        alert('这条数据已添加在推荐列表中了，请重新选择');
+					}else if(data=='error'){
+                        alert('数据和选择的语言、选择类型不一致');
+					}else{
+                        alert('更新失败');
+                    }
+                }
+            });
+        });
+
+		//更新中切换语言更换对应分类
+        $('#utnav').change(function(){
+            var lt = $(this).val();
+            if(lt=='zh-cn'){
+                $('#uttype').html("<option value=\"2\">新闻</option>" +
+                    "<option value=\"3\">视频</option>" +
+                    "<option value=\"4\">娱乐</option>");
+            }else if(lt=="en-us"){
+                $('#uttype').html("<option value=\"12\">News</option>" +
+                    "<option value=\"13\">Video</option>" +
+                    "<option value=\"14\">Entertainment</option>");
+            }else if(lt=="zh-tw"){
+                $('#uttype').html("<option value=\"22\">新聞</option>" +
+                    "<option value=\"23\">視頻</option>" +
+                    "<option value=\"24\">娛樂</option>");
+            }
+        });
+
+
+    });
+
+    //添加推荐
+    $(function(){
+        $('#addid').click(function(){
+            var ids='';
+            $('#search tr td input[type=checkbox]:checked').each(function(){
+                ids+=$(this).val()+',';
+            });
+            idg = ids.substr(0,ids.length-1);
+            if(idg==''){
+				alert('还没有选择数据');
+				return false;
+			}
+            $.ajax({
+                url:'__CONTROLLER__/addRecomm.html',
+                type:'post',
+                dataType:'json',
+                data:{
+                    'pid':idg,
+                    'nav_id':$('select[name=nav_id]').val(),
+                    'language':$('select[name=language]').val()
+                },
+                success:function(data){
+                    if(data=='ok'){
+                        alert('添加成功！');
+                        location.reload();
+                    }else{
+                        alert('添加失败，数据可能存在重复项');
+                    }
+                }
+            });
+        });
+    });
+</script>
+</body>
+</html>

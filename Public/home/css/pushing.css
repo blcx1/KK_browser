@@ -1,0 +1,174 @@
+*{
+	margin: 0;
+	padding: 0;
+}
+@font-face { 
+  font-family: custom;      /* 这里是说明调用来的字体名字 */
+  src: url('../yaheiFont_CHS/msyhbd.ttf');   /*这里是字体文件路径 */
+}
+body{
+   /*overflow: hidden;*/
+   position: relative;
+}
+#nwes-nav{
+	width: 100%;
+
+}
+#loading img,#refresh img{
+	width: 0.3rem;
+	height: 0.3rem;
+}
+#nwes-nav li{
+	
+	display: inline-block;
+	width: 1.3rem;
+	height: 0.8rem;
+	border: 1px #c9c9c4 solid ;
+	border-radius: 0.1rem;
+	margin: 0.2rem 0 0 0.12rem;	
+	font-size: 0.3rem;
+	list-style-type: none;
+	text-align: center;
+	line-height: 0.8rem;
+}
+#nwes-nav li a{
+	/*font-size: 0.36rem;*/
+	text-decoration: none;
+}
+/*hr{
+	margin-top: 0.2rem;
+	border: none;
+    border-bottom: 1px solid #cec1c1;
+}*/
+.title{
+	height: 0.5rem;
+	line-height: 0.5rem;
+	font-size: 0.36rem;
+	    background: #fbf7ee;
+}
+.title-more a{
+	
+	text-decoration: none;
+	line-height: 0.6rem;
+}
+
+.title-more{
+	height: 0.6rem;
+	
+	font-size: 0.33rem;
+	text-decoration: none;
+	text-align: center;
+}
+.separate{
+	width: 100%;
+	height: 0.1rem;
+	background-color:#dedcdc;
+	margin-top: 0.2rem;
+}
+#content-in{
+	/*padding-bottom: 1.4rem;*/
+	padding-top: 0.8rem;
+	z-index: 1;	
+	
+	background-color: white;
+    width: 6.41rem;
+    transform: translate3d(0,0,0);
+    -webkit-transform: translate3d(0,0,0);
+    -moz-transform: translate3d(0,0,0);
+}
+#content-out{
+	
+	    
+	    width: 6.4rem;
+	    position: relative;
+	
+}
+.list-title{
+	
+	font-size: 0.3rem;
+	width: 6.2rem;
+	
+}
+.list-title img{
+	width:1.9rem ;
+	height: 1.4rem;
+	padding-left: 0.1rem;
+	float: right;
+	
+}
+.list li{
+	
+	box-sizing: content-box;
+	display: table;
+	margin-top: 0.2rem;
+	width: 6.2rem;
+	margin: auto;
+	position: relative;
+	
+}
+.list li a{
+	text-decoration: none;
+}
+.promte{
+	
+	margin-left: 0.1rem;    
+    font-size: 0.25rem;
+    clear: both;
+    color: #8d8c8c;
+    position: absolute;    
+    bottom: 0;
+    overflow: hidden;
+}
+
+.source{
+	display: inline-block;
+	margin: 0 0.1rem 0 0.1rem;
+	float: left;
+	
+}
+.author{
+	display: inline-block;
+	float: left;
+	
+}
+.clear{
+	clear: both;
+}
+.list-title p{
+	color: black;
+    margin-left: 0.1rem;
+    display: -webkit-box;
+	-webkit-box-orient: vertical;
+	-webkit-line-clamp: 2;
+	overflow: hidden;
+}
+
+#toutiao{
+	width: 100%;
+	margin-top: 0.2rem;
+	position: relative;
+	height: 100% !important;
+	
+}
+#toutiao img{
+	width:6rem;
+	height: 3.1rem;
+	
+}
+#img{
+	width: 100%;
+	text-align: center;
+}
+#t-title{
+	width: 5.8rem;
+	padding: 0.1rem;
+	left: 0.2rem;
+	font-size: 0.33rem;
+	color:white;
+	position: absolute;
+	bottom: 0.4rem;
+    text-shadow: 2px 2px 4px #000;
+    background-color: rgba(60,60,60,0.5);
+
+}
+

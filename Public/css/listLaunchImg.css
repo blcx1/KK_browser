@@ -1,0 +1,79 @@
+h3{
+	margin-top: 0px;
+	margin-bottom: 0px;
+}
+tr td{
+	text-align: center ;
+	vertical-align: middle !important;
+}
+#entity_ul{
+	padding-left: 0px;
+}
+.div_boder_bottom_line{
+	border-bottom: 1px solid  #11497C;
+ }
+.input-group{
+	width:200px;
+	float:left;
+}
+.entity_content
+{
+	display: block;
+	height:40px;
+	border-bottom:1px solid #11497c;
+	vertical-align:middle;
+}
+.entity_content span{
+	display:inline-block;
+	line-height:40px;
+	height:40px;
+	vertical-align:middle;	
+}
+
+
+.right_top_menu{
+	display:block;
+	height:30px;
+}
+
+.entity_check{
+	width:40px;
+	float:left;
+}
+.entity_name{
+	width:260px;
+	float:left;
+	height:30px;
+	border-left:1px solid #11497C;
+	border-right:1px solid #11497c;
+}
+.entity_logo{
+	margin:0 auto;
+	border:0;
+	width:100px;
+	float:left;
+}
+.entity_logo img{
+	margin:0 auto;
+}
+
+.clearfloat{
+	 clear:both;
+}
+.showpage{
+	margin-left: 5px;
+	margin-right: 5px;
+		}
+.num{
+	margin-left: 5px;
+	margin-right: 5px;
+}
+.add_btn{
+	margin-top: -11px;
+	padding-left:3px;
+	padding: 3px 12px;
+}
+.tab_title{
+	height:40px;
+	font-weight:700;
+}

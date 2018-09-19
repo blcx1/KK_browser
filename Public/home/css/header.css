@@ -1,0 +1,200 @@
+*{
+	margin: 0;
+	padding: 0;
+		
+}
+html{
+	-ms-overflow-style:none;
+     overflow:-moz-scrollbars-none;
+    /*overflow: hidden;*/
+    
+}
+body{
+	/*height: 10rem;*/
+	/*overflow: hidden;*/
+	
+}
+@font-face { 
+  font-family: custom;       /*这里是说明调用来的字体名字*/ 
+  src: url('../yaheiFont_CHS/msyhbd.ttf');   /*这里是字体文件路径*/ 
+}
+#header{
+	/* font-family: custom;*/
+	width: 6.4rem;
+	height: 0.8rem;
+	/*margin-bottom: 0.1rem;*/
+	    position: fixed;
+	    top: 0px;
+    z-index: 99999;
+    background-color:white;
+    overflow: hidden;
+}
+.nav-out{
+	width: 5.8rem;
+	height: 0.8rem;    
+    overflow: hidden;
+    background-color: white;
+	
+}
+.nav-out:after{
+	content: ""; 
+    position: absolute;
+    width: 0.2rem;
+    height: 100%;
+    right:0.8rem;
+    top: 0;
+    background: -webkit-gradient(linear,left top,right top,color-stop(0,hsla(0,0%,100%,.2)),color-stop(100%,#fff));
+}
+.nav-in{
+	height: 0.9rem;
+	overflow-x: scroll;
+	    overflow-y: hidden;
+	
+}
+#loading,#refresh{
+	width: 100%;
+	height: 0.7rem;
+	
+	font-size: 0.3rem;
+	text-align: center;
+	line-height: 0.7rem;
+	background-color: #d1cbcb;
+}
+#loading{
+	visibility: hidden;
+}
+#refresh{
+	display: none;
+}
+#nav-add{
+	width: 0.8rem;
+	height: 0.8rem;	
+	text-align: center;
+	line-height: 0.6rem;
+	font-size: 0.5rem;
+	position: absolute;
+	right: 0rem;
+	color: #a99d9d;
+        background-color: white;
+	
+}
+.nav-list{
+	overflow: hidden;
+	display: inline;
+	white-space: nowrap;
+	float: left;
+	padding-left: 0.1rem;
+	
+}
+.nav-list li{
+	min-width: 1.1rem;
+	height: 0.8rem;
+	font-size:0.33rem;
+	display: inline-block;	
+	list-style: none;
+	line-height: 0.6rem;
+	text-align: center;
+}
+.nav-list li a{
+	text-decoration: none;
+	color: #000000;
+}
+#content{
+	width: 6rem;
+	height: 100%;
+	margin-bottom: 0.1rem;
+	margin: auto;
+	/*overflow-y: auto;
+	overflow: hidden;*/
+	/*position: absolute;
+	z-index: 99;*/
+	
+	
+	
+	width: 100%;
+	/*background: #ccc;
+	overflow: hidden;*/
+}
+#content div{
+	/*width: 6.2rem;*/
+	/*padding-top: 0.8rem;*/
+    /*margin: auto;*/
+	/*height: 100%;*/
+	/*margin-bottom:0.5rem ;*/
+	/*display: none;*/
+}
+#pushing-content{
+	width: 6.4rem;
+	height: 10rem;
+	background-color: blue;
+}
+#list-1{
+	width: 6.4rem;
+	display: none;
+	position: absolute;
+	z-index: 99;
+	background-color: white;
+	margin-top: 0.8rem;
+}
+#list-1 li{
+	min-width: 1rem;
+	height: 0.6rem;
+	float: left;
+	text-align: center;
+	line-height: 0.6rem;
+	border: 1px #c9c9c4 solid ;
+	border-radius: 0.1rem;
+	margin: 0.1rem 0 0 0.23rem;
+	list-style-type: none;
+	background-color: whitesmoke;
+	font-size: 0.33rem;
+		
+}
+#list-2{
+	background-color:#f0f6f2;
+	padding-bottom: 0.2rem;
+	overflow: hidden;
+}
+#list-1 li a{
+	text-decoration: none;
+	color: #30302f;
+}
+#list-1 p{
+	text-align: center;
+	padding-top: 0.1rem;
+	font-size: 0.36rem;
+	color: #7e7e79;
+}
+.active{
+	color: white;
+	background-color: blue;
+}
+iframe{
+	width: 100%;
+	/*height: 11.36rem;*/ 
+	padding-top: 0.8rem;
+	border: none;
+	overflow: auto;
+	overflow: hidden;
+	
+}
+
+hr{
+	
+	width: 6rem;
+    margin: 0.2rem auto;
+	border: none;
+	border-bottom: 1px solid #f3ecec;
+}
+.border-bottom{
+	padding-bottom: 0.06rem;
+    border-bottom: 0.03rem solid #1893f5.;
+    color: #1893f5 !important;
+}
+.shadow{
+	box-shadow: 0 0 0.1rem blue;
+	color: blue;
+	border: 1px blue solid;
+}
+
+

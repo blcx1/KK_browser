@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>{$Think.lang.VideoList}</title>
+	<link href="__PUBLIC__/lib/bootstrap/css/bootstrap.css" rel="stylesheet">
+	<link rel="stylesheet" type="text/css" href="__PUBLIC__/css/admin-all.css" />
+	<link rel="stylesheet" type="text/css" href="__PUBLIC__/css/formui.css"/>
+	<link href="__PUBLIC__/css/listtheme.css" rel="stylesheet">
+	<script type="text/javascript" src="__PUBLIC__/lib/jquery-1.8.3.min.js"></script>
+	<script type="text/javascript" src="__PUBLIC__/lib/My97DatePicker/WdatePicker.js"></script>
+
+</head>
+<body >
+<div class="alert alert-info" style="padding: 2px;margin-bottom: 4px;">
+	{$Think.lang.Position}<b class="tip"></b>
+	{$Think.lang.VideoManage}<b class="tip"></b>
+        <if condition="strtolower($Think.const.ACTION_NAME) eq 'impotaddlist'">当前已导入列表<elseif condition="$Think.const.ACTION_NAME eq 'off_put_list'" />{$Think.lang.VideoList(Unpublished)}<else />{$Think.lang.VideotList}</if>
+</div>
+<div>
+	<table  style="width:90%;text-align: center; margin:0 auto;" class="table  table-striped table-bordered table-condensed " >
+		<form method="post" action="__APP__/Admin/Video/delVideo.html?act={$Think.const.ACTION_NAME}" id="from_delete">
+			<tr>
+				<td colspan="10" >
+					<span  class="btn btn-default select_all"  style='margin: 0 5px;'>{$Think.lang.AllChoose}</span>
+					<span  class="btn btn-default re_select_all" style='margin: 0 5px;'>{$Think.lang.ContraryChoose}</span>
+					<a href="__APP__/Admin/Video/addVideo" class="btn btn-default">{$Think.lang.Add}</a>
+					<input type="submit"  style='margin: 0 5px;' class="btn btn-default" onclick="return confirm('{$Think.lang.DelOK}？')" value="{$Think.lang.Delete}"/>
+                                        <if condition="(strtolower($Think.const.ACTION_NAME) eq 'impotaddlist') OR ($Think.const.ACTION_NAME eq 'off_put_list')">
+                                        <input type="submit" id="put" style="margin: 0 5px;" class="btn btn-default" onclick="return confirm('确认对选中的项提交发布？')" value="发布" />
+                                        </if>
+                                        <if condition="strtolower($Think.const.ACTION_NAME) eq 'videolist'">
+                                        <input type="submit" id="removed" style="margin: 0 5px;" class="btn btn-default" onclick="return confirm('确认对选中的项下架处理？')" value="下架" />
+                                        </if>
+                                </td>
+			</tr>
+			<tr class="tab_list">
+				<td style="width: 5%;">{$Think.lang.Check}</td>
+				<td style="width: 5%;">{$Think.lang.AdminId}</td>
+				<td style="width: 25%;">{$Think.lang.Name}</td>
+				<td style="width: 15%;">{$Think.lang.Icon}</td>
+				<td style="width: 20%;">{$Think.lang.CreateTime}</td>
+				<td style="width: 10%;">{$Think.lang.From}</td>
+				<td style="width: 10%;">{$Think.lang.language}</td>
+				<td style="width: 10%;">{$Think.lang.Operate}</td>
+			</tr>
+			<Volist name="res" id="vo">
+				<tr>
+					<td><input class="check" type="checkbox" name="check[]" value="{$vo.id}"></td>
+					<td>{$vo.id}</td>
+					<td ><div class="tite-out"><a href="{$vo.link_address}"title="{$vo.tit_name}" target="_blank">{$vo.tit_name}</a></div></td>
+					<td >
+                                             <a href="{$vo.icon_image}" traget="_blank"><img class="imgh" src="{$vo.icon_image}" height="30"/></a>
+					</td>
+					<td>{$vo.create_date}</td>
+					<td>{$vo.come_from}</td>
+					<td>{$vo.languages}</td>
+					<td>
+						<button type="button" uid="{$vo.id}" name="{$vo.tit_name}" images="{$vo.icon_image}" link = "{$vo.link_address}" from="{$vo.come_from}" lang = "{$vo.language}" class="btn btn-primary btn-sm uprec">修改</button>
+						<a href="__APP__/Admin/Video/delVideo.html?check={$vo.id}&act={$Think.const.ACTION_NAME}" class="btn btn-warning btn-sm">删除</a>
+                                               <if condition="strtolower($Think.const.ACTION_NAME) eq 'videolist'">
+                                               <a href="__CONTROLLER__/removed.html?check={$vo.id}" class="btn btn-warning btn-sm">下架</a>
+                                               </if>
+					</td>
+				</tr>
+			</Volist>
+			<tr>
+				<td colspan="10" style="text-align: center;">
+					<span id="page-count">{$page}</span>
+					<span id="page-counts">{$Think.lang.Amount} : {$count}</span>
+				</td>
+			</tr>
+
+		</form>
+	</table>
+</div>
+<!--更新窗口 start-->
+<div id="updatenav" style="display:none; width:500px; min-height:400px; padding-bottom:20px;border:1px solid #eee; position:fixed;z-index:999;top:100px;left:50%; margin-left:-250px; background:white; box-shadow: 5px 15px 10px #ccc;">
+	<form action="__APP__/Admin/Video/updateVideo.html" method="post" enctype="multipart/form-data">
+		<input type="hidden" id="uid" name="id" value="" />
+		<div style="width: 100%;height: 35px;line-height: 35px;background:#eee;text-align:center;border-bottom: 1px solid #D5D5D5;font-size: 14px;color: #333;">修改视频内容</div>
+		<div style="padding:30px;">
+			<div class="input-group">
+				<div class="input-group-addon">名称：</div>
+				<input style="width: 280px;" type="text" uid="" id="utname"  class="form-control" name="name">
+			</div>
+
+			<div class="input-group" style="margin-top:10px;">
+				<div class="input-group-addon">{$Think.lang.language}：</div>
+				<select id="uttype" name="language" class="form-control">
+					<volist name="lang" id="vo">
+						<option value="{$vo.iso_code}">{$vo.name}</option>
+					</volist>
+				</select>
+			</div>
+
+			<div class="input-group" style="margin-top:10px;">
+				<p id="images"></p>
+			</div>
+			<div class="input-group" style="margin-top:10px;">
+				<div class="inp-up">上传图片：</div>
+				<input style="width: 280px;left: 28%;" type="file" name="pic" class="form-control radius"/>
+				<div class="shade" style="left: 49%;">未上传文件</div>    
+			</div>
+
+			<div class="input-group" style="margin-top:10px;">
+				<div class="input-group-addon">跳转链接：</div>
+				<input style="width: 255px;" type="text" uid="" id="link"  class="form-control" name="link">
+			</div>
+
+			<div class="input-group" style="margin-top:10px;">
+				<div class="input-group-addon">来源：</div>
+				<input style="width: 283px;" type="text" uid="" id="from"  class="form-control" name="from">
+			</div>
+
+			<div class="input-group" style="margin-top:10px;">
+				<input type="submit" class="btn btn-info" style="margin-right:10px;" id="updates" value="更新"/>
+				<button type="button" class="btn btn-warning" onclick="$('#updatenav').hide();">取消</button>
+			</div>
+
+		</div>
+	</form>
+</div>
+<!--更新窗口 end-->
+<script type="text/javascript">
+    var CONTROLLER='__CONTROLLER__/';
+    $(document).ready(function(){
+        $(".select_all").click( function () {
+            $check = $(".check");
+            if($check.attr("checked") != "checked"){
+                $check.attr("checked",true);
+            }else{
+                $check.attr("checked",false);
+            }
+        });
+        $(".re_select_all").click( function () {
+
+            $(".check").each(function()	{
+                if($(this).attr("checked") != "checked"){
+                    $(this).attr("checked",true);
+                }else{
+                    $(this).attr("checked",false);
+                }
+            });
+        });
+
+        $("#addBtn").click(function(){
+            $("#addnav").show();
+        });
+        $("#unsub").click(function(){
+            $("#addnav").hide();
+        });
+
+        //更新操作数据选中
+        $('.uprec').each(function(){
+            $(this).click(function(){
+                $('#utname').val('');
+                $('#uttype option').eq(0).prop("selected", 'selected');
+                $('#updatenav').show();
+
+                var uid = $(this).attr('uid');
+                var name = $(this).attr('name');
+                var link= $(this).attr('link');
+                var images= $(this).attr('images');
+                var lang = $(this).attr('lang');
+                var from = $(this).attr('from');
+
+                $('#utname').val(name);
+                $('#utname').attr('uid',uid);
+                $('#uid').val(uid);
+                $('#uttype option[value='+lang+']').prop("selected", 'selected');
+                //插入图片显示
+				var img = '';
+				img = "<img src='"+images+"' height='65'/>";
+
+                $('#images').html(img);
+                $('#link').val(link);
+                $('#from').val(from);
+            });
+        });
+        $("img").on("mouseenter",function(){
+          	var imgurl=$(this).attr("src")        
+          	$("body").prepend('<img src='+imgurl+' class="imgh-scale img" style=" border: 8px double #9E9E9E;"/>')	
+	    })
+	    $("img").on("mouseleave",function(){
+	    	$(".imgh-scale").remove();    	
+	    })
+	    
+	    $("input[type=file]").live("change",function(e){
+	    	$(this).next().text(e.currentTarget.files[0].name)
+	    })
+        $.getScript('__PUBLIC__/js/put.js');
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+    <head>				
+        <title>KENXINDA.BROWSER.{$Think.const.CONTROLLER_NAME}</title>
+        <meta charset="UTF-8">
+        <link rel="stylesheet" type="text/css" href="__PUBLIC__/home/css/header.css"/>
+        <link rel="stylesheet" type="text/css" href="__PUBLIC__/home/css/video.css"/>
+        <include file="layout/config_js" />
+        <script src="__PUBLIC__/home/js/jquery-1.7.2.js"></script>
+        <script src="__PUBLIC__/home/js/flexible.js"></script>		
+        <script src="__PUBLIC__/home/js/iscroll.js"></script>
+        <!--<script src="__PUBLIC__/home/js/common.js"></script>-->
+        <script src="__PUBLIC__/home/js/header.js"></script>
+    </head>
+	<body >
+		
+		<include file="layout/head" />
+		<div id="content" > 
+		<div id="content-out">
+			<div id="content-in">
+				<div id="con-in">
+				<div id="refresh" >
+					{$Think.lang.ARefreshing}
+					<img src="__PUBLIC__/home/img/5-121204193R2-50.gif"/>
+				</div>
+			<div id="video-content">
+				<div id="v-in">
+					
+					<ul class="list">
+                                            <volist name="list" id="vo">
+						<div class="separate"></div>
+						<li>
+							<div class="video-out">
+								<div onclick="location.href='{$vo.link_address}'" class="vidoe-in">
+									<div class="video-con" style="background-image:url({$vo.icon_image});">
+										<div class="video-title">
+											{$vo.tit_name}
+										</div>
+										<i ></i>
+										<div class="promte">
+											<span class="time">{$vo.time}</span>
+										</div>
+									</div>
+									<div class="video-source">
+										<span class="source">{$vo.come_from}</span>
+									</div>
+								</div>
+							</div>
+						</li>
+                                            </volist>
+					</ul>
+				</div>
+			</div>
+                        <input id="fKe" type="hidden" value="0">
+			<div id="loading" >
+			   	{$Think.lang.Aloading}
+			   	<img src="__PUBLIC__/home/img/5-121204193R2-50.gif"/>
+			</div>
+			</div>
+			</div>
+			
+			</div>
+		</div>
+	</body>
+        <script>
+            var n =0;
+            function header(){
+                n++
+                $.ajax({
+                    type:"post",
+                    url:API+"/Index/video",
+                     data:{
+				             nav_mark: "video_list",	
+				             page:n,
+				             size:6,
+				            },
+                    async:true,
+                    success:function(data){
+                        var jsonData=eval('('+data+')');
+//                      keys=jsonData['status']['page'];
+//                      $('#fKe').val(keys);
+
+                        resData=jsonData.result;
+                        if(n!=1){
+			               if(jsonData.result.length<6){
+			               	n=0;
+			               }
+		               }
+                        var addlist='';
+                        for(var i=0;i<resData.length;i++){
+                            var link_address="'"+resData[i].link_address+"'";
+                            addlist+='<div class="separate"></div>'+
+						'<li>'+
+							'<div class="video-out">'+
+								'<div onclick="location.href='+link_address+'" class="vidoe-in">'+
+									'<div class="video-con" style="background-image:url('+resData[i].icon_image+');">'+
+										'<div class="video-title">'+
+											resData[i].tit_name+
+										'</div>'+
+										'<i ></i>'+
+										'<div class="promte">'+
+											'<span class="time">'+resData[i].time+'</span>'+
+										'</div>'+
+									'</div>'+
+									'<div class="video-source">'+
+										'<span class="source">'+resData[i].come_from+'</span>'+
+									'</div>'+
+								'</div>'+
+							'</div>'+
+
+						'</li>';
+                           
+                        } 
+					 $('#v-in ul').html(addlist);
+                        
+                    }
+            });
+        }
+            
+            function footerLoad(){
+                $('#fKe').val(parseInt($('#fKe').val())+1);
+                var keys=$('#fKe').val();
+                $.ajax({
+                    type:"post",
+                    url:"footerLoad.html",
+                    data:"keys="+keys,
+                    async:true,
+                    success:function(data){
+                        var jsonData=eval('('+data+')');
+                        keys=jsonData['status']['page'];
+                        $('#fKe').val(keys);
+                        resData=jsonData['data'];
+                        var addlist='';
+                        for(var i=0;i<resData.length;i++){
+                            var link_address="'"+resData[i].link_address+"'";
+                            addlist='<div class="separate"></div>'+
+						'<li>'+
+							'<div class="video-out">'+
+								'<div onclick="location.href='+link_address+'" class="vidoe-in">'+
+									'<div class="video-con" style="background-image:url('+resData[i].icon_image+');">'+
+										'<div class="video-title">'+
+											resData[i].tit_name+
+										'</div>'+
+										'<i ></i>'+
+										'<div class="promte">'+
+											'<span class="time">'+resData[i].time+'</span>'+
+										'</div>'+
+									'</div>'+
+									'<div class="video-source">'+
+										'<span class="source">'+resData[i].come_from+'</span>'+
+									'</div>'+
+								'</div>'+
+							'</div>'+
+
+						'</li>';
+                            $('#v-in ul').html($('#v-in ul').html()+addlist);
+                        } 
+					$("#loading").css("visibility","hidden")
+                        
+                    }
+            });
+        }
+        </script>
+</html>

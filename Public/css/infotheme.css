@@ -1,0 +1,38 @@
+@CHARSET "UTF-8";
+body{ 
+	width: 85%;  
+	min-width: 825px;
+}
+.contral_panel{
+	margin: 0 auto;
+	text-align: center;
+}
+ul li{
+	list-style: none;	
+}
+.themeinfo .table td{
+	width: 20%;
+	text-align:center;
+	margin:0 auto;
+	vertical-align: middle;
+}
+.baseinfo .table td{
+	width: 50%;
+	vertical-align: middle;
+}
+.baseinfo{
+	margin:0px auto; 
+	display: none;
+}
+.theme_apk_file{
+	margin:0px auto; 
+	display: none;
+}
+.id_apk_images{
+	margin:0px auto; 
+	display: none;
+}
+.id_apk_logo{
+	margin:0px auto; 
+	display: none;
+}

@@ -1,0 +1,1 @@
+a:6:{i:0;s:2:"id";i:1;s:6:"nav_id";i:2;s:3:"pid";i:3;s:8:"language";s:3:"_pk";s:2:"id";s:5:"_type";a:4:{s:2:"id";s:19:"bigint(20) unsigned";s:6:"nav_id";s:7:"int(11)";s:3:"pid";s:10:"bigint(20)";s:8:"language";s:8:"char(20)";}}

@@ -1,0 +1,50 @@
+<style type="text/css">
+form{width:98%;}
+.form-control{width:240px !important}
+.long_input{width:640px !important}
+.spanrequire {
+    color: red;
+    display: inline-block;
+    font-size: larger;
+    line-height: 34px;
+    width: 30px;
+}
+.error{color:#f00;}
+</style>
+<form id="commonInfo" method="post" enctype="multipart/form-data" action="__APP__/Admin/Language/{$act}" class="form-inline" role="form">
+	<div  style="width: 60%; margin: 0 auto; ">
+		<if condition="isset($error_array['result']) && ($error_array['result'] neq '')"><div class="error" style="text-align:center">{$error_array.result}</div></if>
+		<table class="table table-striped table-bordered table-condensed ">
+			<tr>
+				<td colspan="4" >
+				<h3><if condition="$token eq 'add'">{$Think.lang.Add}<else/>{$Think.lang.Modify}</if></h3>
+				</td>
+			</tr>
+			<tr>
+				<td>{$Think.lang.Language}</td>
+				<td  colspan="3" class="td_left">
+					<input type="text" class="form-control" name="name" value="{$info_array|filter_set_value='name','','string'}" maxlength="36"/>
+					<span class="spanrequire">*</span>
+					<span class="error">{$error_array|filter_set_value='name','','string'}</span>
+				</td>				
+			</tr>
+			<tr>
+				<td>{$Think.lang.IsoCode}</td>
+				<td  colspan="3" class="td_left">
+					<input type="text" class="form-control" name="iso_code" value="{$info_array|filter_set_value='iso_code','','string'}" maxlength="10"/>
+					<span class="spanrequire">*</span>
+					<span class="error">{$error_array|filter_set_value='iso_code','','string'}</span>
+				</td>				
+			</tr>						
+			<tr>
+				<td colspan="4" style="text-align:center;">
+				    <input type="hidden" name="token" value="{$token}"/>
+					<input type="hidden" name="id" value="{$info_array|filter_set_value='id',0,'int'}"/>
+					<input class="btn4 btn btn-default" type="submit" value="<if condition="$token eq 'add'">{$Think.lang.Add}<else/>{$Think.lang.Modify}</if>"/>
+					<input class="btn4 btn btn-default" type="reset" value="{$Think.lang.Reset}"/>
+				</td>
+			</tr>			
+		</table>		
+	</div>
+</form>
+	  					

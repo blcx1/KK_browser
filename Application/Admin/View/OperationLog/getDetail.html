@@ -1,0 +1,70 @@
+<include file="common/head" />
+  	<div  style="width: 900px; margin: 0 auto; ">		
+		<table class="table table-striped table-bordered table-condensed ">
+			<tr>
+				<td colspan="4" >
+				<h3>{$Think.lang.Detail} <if condition="$detail_info.is_delete eq 1">({$Think.lang.Delete})</if></h3>
+				</td>
+			</tr>
+			<tr>				
+				<td>{$Think.lang.AdminId}</td>
+				<td class="td_left">
+					{$detail_info.admin_id}
+				</td>
+				<td>{$Think.lang.UserName}</td>
+				<td class="td_left">
+					<a href="__APP__/Admin/Admin/showAdmin.html?id={$detail_info.admin_id}" title="{$Think.lang.Detail}">{$detail_info.admin_name|stripslashes}</a>
+				</td>
+				
+			</tr>			
+			<tr>
+				<td>{$Think.lang.OperateID}</td>
+				<td class="td_left">
+					{$detail_info.operate_id}
+				</td>
+				<td>{$Think.lang.OperateName}</td>
+				<td class="td_left">
+					{$detail_info.operate_name|stripslashes}
+				</td>
+			</tr>
+			<tr>
+				<td >{$Think.lang.OperateIp}</td>
+				<td class="td_left">{$detail_info.operate_ip|stripslashes}</td>		
+				<td>{$Think.lang.OperateBrowse}</td>
+				<td class="td_left">
+					{$detail_info.operate_browse|stripslashes}
+				</td>
+			</tr>
+			<tr>
+				<td>{$Think.lang.OperateOS}</td>
+				<td class="td_left">
+					{$detail_info.operate_os|stripslashes}
+				</td>
+				<td></td>
+				<td class="td_left">					
+				</td>
+			</tr>
+			<tr>
+				<td>{$Think.lang.CreateTime}</td>
+				<td class="td_left">{$detail_info.add_time}</td>
+				<td>{$Think.lang.updTime}</td>
+				<td class="td_left">{$detail_info.update_time}</td>
+			</tr>
+			<tr>
+				<td>{$Think.lang.OperateUserAgent}</td>
+				<td colspan="3" class="td_left">
+					{$detail_info.operate_useragent|stripslashes}
+				</td>
+			</tr>
+			<tr>
+				<td>{$Think.lang.OperateContent}</td>
+				<td colspan="3"><textarea style="width: 100% !important; height: 360px;" class="form-control" name="detailed">{$detail_info.operate_content|stripslashes|urldecode|base64_decode}</textarea></td>
+			</tr>
+			<tr>
+				<td style="text-align: center;" colspan="4">
+					<a href="javascript:void(0);" style="margin: 0;" onclick="javascript:history.go(-1);" title="{$Think.lang.Return}" class="btn4 btn btn-default">{$Think.lang.Return}</a>
+                </td>					
+			</tr>
+		</table>		
+	</div>
+<include file="common/footer"/>

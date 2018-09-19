@@ -1,0 +1,35 @@
+<include file="common/head" />
+	<style type="text/css">
+		h3 {
+			margin-top: 5px;
+			margin-bottom: 5px;
+		}
+	</style>
+  		<table  style="width:600px; margin:0 auto;text-align: center;" class="table  table-striped table-bordered table-condensed " >
+		 	<tr>
+			 	<td class="text-center" colspan="10">
+			 		<h3>{$Think.lang.AddMembers}
+				 		<Volist name="authList" id="auth">
+				 			({$auth.title})
+				 		</Volist>
+				 	</h3>
+			 	</td>
+		 	</tr>
+		 	<tr>
+		 		<td>{$Think.lang.UserId}</td>
+		 		<td>{$Think.lang.AdminName}</td>
+		 		<td>{$Think.lang.AdminJobnum}</td>
+		 		<td>{$Think.lang.Operation}</td>
+		 	</tr>
+			<Volist name="masterList" id="mas">
+				<tr>
+					<td style="vertical-align: middle;">{$mas.id}</td>
+					<td style="vertical-align: middle;">{$mas.name}</td>
+					<td style="vertical-align: middle;">{$mas.jobnum}</td>
+					<td>
+						<a href="__APP__/Admin/Auth/addGroupAccess/uid/{$mas.id}/group_id/{$id}" class="btn btn-default">{$Think.lang.Add}</a>
+					</td>
+				</tr>
+			</Volist>
+	  	</table>
+<include file="common/footer"/>

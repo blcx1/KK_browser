@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>{$title}</title>
+<!--<link rel="stylesheet" type="text/css" href="__PUBLIC__/css/reset.css"/>
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/css/common.css"/> -->
+<link href="__PUBLIC__/lib/bootstrap/css/bootstrap.css" rel="stylesheet" type="text/css" > 
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/css/admin-all.css" />
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/css/formui.css"/>
+<script src="__PUBLIC__/lib/jquery-1.8.3.min.js" type='text/javascript'></script> 
+<script src="__PUBLIC__/lib/My97DatePicker/WdatePicker.js" type='text/javascript'></script>
+<script src="__PUBLIC__/lib/layer/layer.min.js" type='text/javascript'></script>
+<script src="__PUBLIC__/js/checked.js" type='text/javascript'></script>
+<script type="text/javascript">
+function modify_form_action(form_name,url){
+	
+	var action_url = url.toString();
+	form_name = "#" + form_name.toString();
+	if(form_name.length > 1 && action_url.length > 0){
+		
+		$(form_name).attr("action",action_url);
+		$(form_name).submit();
+	}
+	
+}
+function change_status(id,name,url){
+	
+	var display_info = '';
+	var fix_name = '';
+	var ajax_url = url;
+	var fix_id = parseInt(id);
+	if(confirm('{$Think.lang.ConfirmModify}')){
+		
+		if(fix_id > 0 && name.length > 0 && url.length > 0){
+		
+			fix_name = '#' + name + '_' + fix_id.toString();
+			$.ajax({ 
+				url: ajax_url,
+				data:{'ajax':1,'id':fix_id,'status':name},
+				dataType: "json",
+				type: "POST",
+				success: function(ajaxobj){
+					if(ajaxobj.error > 0){
+					
+						display_info = '{$Think.lang.ModifyFailure}';
+						alert(display_info);
+					}else{				
+												
+						$(fix_name).html(ajaxobj.status_value);
+					}			
+					
+				},
+				error:function(ajaxobj)
+				{
+		//				if(ajaxobj.responseText!='')
+		//				alert(ajaxobj.responseText);
+				}
+			});	
+		}
+	}
+	
+}
+</script>
+<style type="text/css">
+	#addAdminUser {
+		width: 80%;
+	}
+
+	#updateAdminPwdForm{margin-bottom: 5px;margin-top: 5px;}
+	.num{
+		margin-left: 5px;
+		margin-right: 5px;
+	}
+	tr td{
+		text-align: center !important;
+		vertical-align: middle!important; 
+	}
+	.input-group{	
+		float:left;
+		padding-left:15px;
+		padding-top:5px;
+	}
+	.input-group-addon{
+		width:50px;
+	}
+	.form-control{
+		width:120px!important;
+	} 
+	form{
+		width:790px;
+		margin:0 auto;
+	}
+	h3{
+		margin-top: 0px;
+		margin-bottom: 0px;
+	}
+	tr td.td_left{
+		text-align:left !important;
+	}
+</style>
+</head>
+<body> 
+<div class="alert alert-info" style="padding: 2px;margin-bottom: 4px;">
+	<foreach name="breadNav_array" item="breadNav" key="k"> 
+	{$breadNav} <if condition="$k neq $last_breadNav"><b class="tip"></b></if>
+	</foreach>
+	<div style="float:right;"> 
+		<foreach name="right_array" item="right_value" key="k"> 
+		
+			&nbsp;&nbsp;<a href="{$right_value|filter_set_value='href','','string'}" {$right_value|filter_set_value='other','','string'}> {$right_value|filter_set_value='title','','string'}  </a> &nbsp;&nbsp; 
+		</foreach>
+		&nbsp;&nbsp;<a href="javascript:void(0);" onclick="javascript:history.go(-1);" title="{$Think.lang.Return}"> {$Think.lang.Return}  </a> &nbsp;&nbsp; 
+	</div>
+</div>

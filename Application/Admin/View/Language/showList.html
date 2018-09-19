@@ -1,0 +1,56 @@
+<include file="common/head" />
+	<table  style="width:99%; margin:0 auto;" class="table  table-striped table-bordered table-condensed " >
+		<tr>
+			<td colspan="11" class="text-center"><h3>{$Think.lang.ShowList}</h3></td>
+		</tr>
+		<tr>
+			<td colspan="11" class="text-center">
+				<form id="updateAdminPwdForm" method="post" action="__APP__/Admin/Language/showList"  class="form-inline" role="form" style="width:295px; margin: 0 auto;float:left;">
+					<div style="text-align: center;">										
+						<div class="input-group"  >
+						  <div class="input-group-addon">{$Think.lang.Language}</div>
+						  <input type="text" class="form-control" name="name" value="{$name}"/>
+						</div>						
+						<input type="submit" name="btn" style="float:left;margin:5px;" class="btn btn-default" value="{$Think.lang.Query}" /> 
+					</div>
+				</form>
+					<input style="float: left;margin-top: 5px;" type="button" name="{$Think.lang.Delete}" class=" btn btn-default" value="{$Think.lang.Delete}" onclick="javascript:if(confirm('{$Think.lang.DelOK}')) modify_form_action('listForm','__APP__/Admin/Language/deleteInfo.html');"/>
+				
+			</td>
+		</tr>
+	</table>
+	<form id="listForm" method="post" action=""  class="form-inline" role="form" style="width:auto; margin: 0 auto;">
+
+	<table  style="width:99%; margin:0 auto;" class="table  table-striped table-bordered table-condensed " >
+			<tr>		
+				<td> <input id ="select"   type="button"   class=" btn btn-default" value="{$Think.lang.AllChoose}" /> {$Think.lang.Id}</td>
+				<td>{$Think.lang.Language}</td>				
+				<td>{$Think.lang.IsoCode}</td>							
+				<td>{$Think.lang.CreateTime}</td>
+				<td>{$Think.lang.updTime}</td>
+				<td>{$Think.lang.Operation}</td>
+			</tr>
+			<Volist name="showList" id="value"> 			
+			<tr>
+				<td style="margin:0 auto;">
+					<input type="checkbox" value="{$value.id}" name="check[]" class="check"> {$value.id}
+				</td>
+				<td style="margin:0 auto;">
+					{$value.name}
+				</td>
+				<td>{$value.iso_code}</td>			
+				<td>{$value.add_time}</td>
+				<td>{$value.update_time}</td>
+				<td>					
+					
+					<a href="__APP__/Admin/Language/updateInfo.html?id={$value.id}" class="btn btn-default" >{$Think.lang.Modify}</a>
+					<a href="__APP__/Admin/Language/deleteInfo.html?id={$value.id}" onclick="return confirm('{$Think.lang.DelOK}')" class="btn btn-default" >{$Think.lang.Delete}</a>
+				</td>
+			</tr>			
+			</Volist>
+		<tr>
+			<td colspan="11" style="text-align: center;"><div style="float:left;display:inline-block;"></div><div style="display:inline-block;">{$show}</div><div style="display:inline-block;margin-left:15px;">{$Think.lang.Amount}: {$amount}</div></td>
+		</tr>
+	</table>
+	</form>
+<include file="common/footer"/>

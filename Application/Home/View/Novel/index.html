@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html>
+    <head>				
+        <title>KENXINDA.BROWSER.{$Think.const.CONTROLLER_NAME}</title>
+        <meta charset="UTF-8">
+        <link rel="stylesheet" type="text/css" href="__PUBLIC__/home/css/header.css"/>
+        <link rel="stylesheet" type="text/css" href="__PUBLIC__/home/css/novel.css"/>
+        <include file="layout/config_js" />
+        <script src="__PUBLIC__/home/js/jquery-1.7.2.js"></script>
+        <script src="__PUBLIC__/home/js/flexible.js"></script>		
+        <script src="__PUBLIC__/home/js/iscroll.js"></script>
+        <!--<script src="__PUBLIC__/home/js/common.js"></script>-->
+        <script src="__PUBLIC__/home/js/header.js"></script>
+    </head>
+	<body >
+		
+		<include file="layout/head" />
+                
+		<div id="content" > 
+		<div id="content-out">
+			<div id="content-in">
+				<div id="con-in">
+
+					<div id="refresh">
+						{$Think.lang.ARefreshing}
+						<img src="__PUBLIC__/home/img/5-121204193R2-50.gif" />
+					</div>
+					<div class="pursue1">
+						<p class="p-title">{$Think.lang.MostSoughtAfter}</p>
+						<ul class="list">
+							<volist name="hot" id="vo">
+								<li>
+									<div class="con" onclick="location.href='{$vo.link_address}'">
+										<div class="con-l">
+											<img src="{$vo.icon_image}" />
+										</div>
+										<div class="con-r">
+											<div class="con-title">
+												{$vo.tit_name}
+											</div>
+											<div class="describe">
+												{$vo.introduction}
+											</div>
+										</div>
+									</div>
+								</li>
+								<hr />
+							</volist>
+					</div>
+					<div class="separate"></div>
+					<div id='content_list'>
+						<volist name="list" id="vo">
+							<div class="pursue">
+								<p class="p-title">{$key}</p>
+								<ul>
+									<volist name="vo" id="vo1">
+										<li>
+											<div class="con" onclick="location.href='{$vo1.link_address}'">
+												<div class="con-l">
+													<img src="{$vo1.icon_image}" />
+												</div>
+												<div class="con-r">
+													<div class="con-title">
+														{$vo1.tit_name}
+													</div>
+													<div class="describe">
+														{$vo1.introduction}
+													</div>
+												</div>
+											</div>
+										</li>
+										<hr />
+									</volist>
+								</ul>
+							</div>
+						</volist>
+					</div>
+					<input id="fKe" type="hidden" value="0">
+					<div id="loading" >
+						{$Think.lang.Aloading}
+						<img src="__PUBLIC__/home/img/5-121204193R2-50.gif" />
+			       </div>
+
+				</div>
+			</div>
+			
+			</div>
+		</div>
+	</body>
+	<script>
+		var n=0;
+		function header() {
+			n++;
+			$.ajax({
+				type: "post",
+				url: API+"/Index/book",
+				data:{
+		             nav_mark: "book_list",	
+		             page:n,
+		             size:6,
+	            },
+				success: function(data) {
+					var jsonData = eval('(' + data + ')');
+//					console.log(jsonData)
+					var resData = jsonData.result;
+                      console.log(resData)
+					if(resData.length==0){
+		               	n=0;
+		            }   
+		            var result="";
+					for(var i in resData) {
+						var addlist = '';
+						for(var v = 0; v < resData[i].length; v++) {
+							var href = "'"+resData[i][v].link_address+"'";
+							addlist += '<li>' +
+								'<div class="con" onclick="location.href=' + href + '">' +
+								'<div class="con-l">' +
+								'<img src="' + resData[i][v].icon_image + '"/>' +
+								'</div>' +
+								'<div class="con-r">' +
+								'<div class="con-title">' +
+								resData[i][v].tit_name +
+								'</div>' +
+								'<div class="describe">' +
+								resData[i][v].introduction +
+								'</div>' +
+								'</div>' +
+								'</div>' +
+								'</li>' +
+								'<hr />';
+						}
+						result += '<div class="pursue">' +
+							'<p class="p-title">' + resData[i][0].type_name + '</p>' +
+							'<ul>' +
+							addlist +
+							'</ul>' +
+							'</div>';
+						
+					}
+                  $('.pursue1').html( result);
+					$("#content-in").height($("#con-in").height());
+					
+					
+				}
+			});
+		}
+
+		function footerLoad() {
+			$('#fKe').val(parseInt($('#fKe').val()) + 1);
+			var keys = $('#fKe').val();
+			$.ajax({
+				type: "post",
+				url: "footerLoad.html",
+				data: "keys=" + keys,
+				success: function(data) {
+					var jsonData = eval('(' + data + ')');
+					keys = jsonData['status']['page'];
+					$('#fKe').val(keys);
+					var resData = jsonData['data'];
+
+					for(var i in resData) {
+						var addlist = '';
+						for(var v = 0; v < resData[i].length; v++) {
+							var href = "'"+resData[i][v].link_address+"'";
+							addlist += '<li>' +
+								'<div class="con" onclick="location.href=' + href + '">' +
+								'<div class="con-l">' +
+								'<img src="' + resData[i][v].icon_image + '"/>' +
+								'</div>' +
+								'<div class="con-r">' +
+								'<div class="con-title">' +
+								resData[i][v].tit_name +
+								'</div>' +
+								'<div class="describe">' +
+								resData[i][v].introduction +
+								'</div>' +
+								'</div>' +
+								'</div>' +
+								'</li>' +
+								'<hr />';
+						}
+						var result = '<div class="pursue">' +
+							'<p class="p-title">' + i + '</p>' +
+							'<ul>' +
+							addlist +
+							'</ul>' +
+							'</div>';
+						$('#content_list').html($('#content_list').html() + result);
+					}
+
+					$("#content-in").height($("#con-in").height());
+					$("#loading").css("visibility","hidden")
+					
+				}
+			});
+		}
+	</script>
+
+</html>
